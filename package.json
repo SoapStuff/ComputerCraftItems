@@ -1,0 +1,16 @@
+{
+  "name": "computercraft",
+  "version": "1.0.0",
+  "description": "ComputerCraft Communication",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Arjan Seijs",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "csv": "^1.1.1",
+    "express": "^4.15.3"
+  }
+}
