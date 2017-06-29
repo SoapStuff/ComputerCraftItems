@@ -9,28 +9,23 @@ var express = require('express'),
 /**
  * Returns the first queued command.
  */
-router.get("/", function(request,response) {
-    let query = url.parse(request.url,true).query;
+router.get("/", function (request, response) {
     let commands = commandbase.getCommands();
-    let command = commands[query.command];
 
-    if(command !== undefined) {
-        let arguments = command.queue.dequeue();
-        if(arguments === undefined) {
-            response.send(responseString("No Commands",[]));
-            return;
-        }
-
-        let string = responseString(query.command,arguments);
-        response.send(string)
-    } else {
-        response.send(responseString("Invalid Command",[]))
+    let command = commands.dequeue();
+    // No commands
+    if (command === undefined) {
+        response.send(responseString({command: "No Commands", args: []}));
+        return;
     }
+
+    let string = responseString(command);
+    response.send(string)
 });
 
-function responseString(command,arguments) {
-    let argString = arguments.join(",");
-    return '{command = "' + command + '" , args = {' + argString + '}}';
+function responseString(command) {
+    let argString = command.args.join(",");
+    return '{command = "' + command.command + '" , args = {' + argString + '}}';
 }
 
 module.exports = router;
