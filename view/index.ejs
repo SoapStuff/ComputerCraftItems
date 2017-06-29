@@ -5,5 +5,10 @@
     <title>Item Overview</title>
 </head>
 <body>
+<ul>
+<% items.forEach(function(item) { %>
+    <li> <%= item%> </li>
+<% }) %>
+</ul>
 </body>
 </html>
