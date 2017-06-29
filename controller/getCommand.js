@@ -2,7 +2,6 @@
  * Created by Stijn on 29/06/2017.
  */
 var express = require('express'),
-    validate = require('../lib/validator').validate,
     commandbase = require('../model/commandbase'),
     url = require("url"),
     router = express.Router();
@@ -12,6 +11,7 @@ var express = require('express'),
  */
 router.get("/", function(request,response) {
     let query = url.parse(request.url,true).query;
+    let commands = commandbase.getCommands();
     let command = commands[query.command];
 
     if(command !== undefined) {

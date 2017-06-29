@@ -18,7 +18,9 @@ router.get("/",function(request,response) {
         });
         return
     }
-    response.send(items.join(","));
+    itembase.getItems(function (items) {
+        response.send(items.join(","));
+    });
 });
 
 module.exports = router;

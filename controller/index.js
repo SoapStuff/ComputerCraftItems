@@ -6,6 +6,7 @@ var express = require('express'),
     router = express.Router();
 
 router.get("", function(request,response) {
+    console.log("[Server] Request recieved with url [" + request.url + "]");
     itembase.getItems(function (items) {
         response.render("index.ejs",{items: items});
     });

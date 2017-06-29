@@ -26,9 +26,18 @@ exports.init = function () {
 };
 
 exports.getCommands = function (callback) {
+    console.log("[Commandbase] Commands requested");
     if (callback) {
         callback(commands);
     }
 
     return commands;
+};
+
+exports.enqueueCommand = function(command, callback) {
+    command.queue.enqueue(command);
+    console.log("[Commandbase] Command enqueued");
+    if (callback) {
+        callback();
+    }
 };

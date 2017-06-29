@@ -8,6 +8,7 @@ exports.init = function () {
 };
 
 exports.getItems = function (callback) {
+    console.log("[Itembase] Items requested");
     if (callback) {
         callback(items);
     }

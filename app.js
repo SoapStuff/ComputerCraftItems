@@ -3,20 +3,27 @@
  */
 const express = require("express");
 const http = require("http");
-const url = require("url");
 const bodyParser = require("body-parser");
 const app = express();
 const port = process.argv[2];
+
+var itembase = require('./model/itembase');
+var commandbase = require('./model/commandbase');
+
+itembase.init();
+commandbase.init();
 
 app.use(bodyParser.json() );       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
     extended: true
 }));
 
+app.use(express.static(__dirname + '/view/static'));
+
 app.set('views',__dirname + '/view');
 app.set('view engine', 'ejs');
 
 app.use("/", require("./controller"));
 
-console.log(port);
 http.createServer(app).listen(port);
+console.log("[Server] Server started on port " + port);
