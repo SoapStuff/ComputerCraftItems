@@ -8,13 +8,16 @@
 
 local arg = { ... }
 local request = "http://localhost:5000/addCommand?command="
-request = request .. arg[1] .. "&args=\"" .. arg[2] .. "\",";
-for i=3,#arg do
+request = request .. arg[1] .. "&args=\"" .. arg[2] .. "\"";
+if #arg >= 3 then
+    request = request .. ",";
+end
+
+for i=2,#arg do
     request = request .. arg[i];
     if(i ~= #arg) then
         request = request .. ","
     end
 end
-print(request)
-print(http.get(request))
+print(http.get(request).readLine())
 

@@ -10,7 +10,6 @@ local interface = peripheral.wrap("bottom");
 local enderchest = peripheral.wrap("right");
 local importDir = "UP";
 local exportDir = "EAST";
-
 local state = {
     URL = URL,
     interface = interface,
@@ -19,8 +18,10 @@ local state = {
     importDir = importDir
 }
 os.loadAPI("commandListener")
+os.loadAPI("sendItems")
 while true do
     commandListener.pollCommand(state);
+    sendItems.sendItems(state);
     sleep(1);
 end
 

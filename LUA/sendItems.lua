@@ -5,11 +5,8 @@
 -- Time: 19:19
 -- To change this template use File | Settings | File Templates.
 --
-
-local side = "bottom"
-local interface = peripheral.wrap(side)
-while true do
-    local stacks = interface.getAvailableItems()
+function sendItems(state)
+    local stacks = state.interface.getAvailableItems()
     local string = ""
     for i=1,#stacks do
         local stack = stacks[i]
@@ -21,7 +18,6 @@ while true do
             string = string .. ","
         end
     end
-    shell.run("command",string)
-    sleep(10)
+    http.post(state.URL .. "/sendItems")
 end
 
