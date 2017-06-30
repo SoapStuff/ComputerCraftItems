@@ -5,12 +5,16 @@ var express = require('express'),
     itembase = require('../model/itembase'),
     router = express.Router();
 
-router.get("", function(request,response) {
-    console.log("[Server] Request recieved with url [" + request.url + "]");
-    itembase.getItems(function (items) {
-        response.render("index.ejs",{items: items});
-    });
+router.use(function (request, response, next) {
+    console.log("[Request] " + request.method + " " + request.url);
+    if (request.method === "GET" && request.url === "/") {
+        itembase.getItems(function (items) {
+            response.render("index.ejs", {items: items});
+        });
+    }
+    next();
 });
+
 
 router.use("/getItems", require("./getItems"));
 router.use("/sendItems", require("./sendItems"));

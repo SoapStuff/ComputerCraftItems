@@ -9,6 +9,7 @@ var express = require("express"),
 router.get("/",function(request,response) {
     let query = url.parse(request.url,true).query;
     let string = query.string;
+    console.log("reached");
     if(string !== undefined) {
         itembase.getItems(function (items) {
             let array = items.filter(function(value){

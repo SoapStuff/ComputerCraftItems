@@ -9,7 +9,7 @@ router.post("/", function(request,response) {
     if(request.body.args) {
         itembase.getItems(function (items) {
             items = request.body.args.split(",");
-            response.send("Items added")
+            response.send("Items added");
         });
     }
 });
