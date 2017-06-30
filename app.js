@@ -9,9 +9,11 @@ const port = process.argv[2];
 
 var itembase = require('./model/itembase');
 var commandbase = require('./model/commandbase');
+const itemmap = require("./model/itemmap");
 
 itembase.init();
 commandbase.init();
+itemmap.init();
 
 app.use(bodyParser.json() );       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
