@@ -12,17 +12,7 @@ exports.init = function () {
      *
      *
      **/
-    commands = {
-        export : {
-            queue: new Queue()
-        },
-        import : {
-            queue: new Queue()
-        },
-        craft : {
-            queue: new Queue()
-        }
-    };
+    commands = new Queue();
 };
 
 exports.getCommands = function (callback) {
@@ -30,14 +20,14 @@ exports.getCommands = function (callback) {
     if (callback) {
         callback(commands);
     }
-
     return commands;
 };
 
 exports.enqueueCommand = function(command, callback) {
-    command.queue.enqueue(command);
+    commands.enqueue(command);
     console.log("[Commandbase] Command enqueued");
     if (callback) {
         callback();
     }
+    console.log(commands.queue);
 };

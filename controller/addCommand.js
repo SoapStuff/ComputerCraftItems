@@ -14,21 +14,21 @@ var express = require('express'),
  */
 router.get("/", function(request,response) {
     let query = url.parse(request.url,true).query;
-    let commands = commandbase.getCommands();
-    let command = commands[query.command];
-    let args = query.args;
 
-    if(command === undefined || arguments === undefined) {
+    if(query.command === undefined || query.args=== undefined) {
         response.send("The command was invalid");
         return;
     }
 
-    args = args.split(",");
-
+    let args = query.args.split(",");
     if(!validate(query.command,args,response)) {
         return;
     }
-    commandbase.enqueueCommand(args, function () {
+    let command = {
+        command: query.command,
+        args: args
+    };
+    commandbase.enqueueCommand(command, function () {
         response.send("Command Added");
     });
 });
