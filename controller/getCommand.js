@@ -24,7 +24,18 @@ router.get("/", function (request, response) {
 });
 
 function responseString(command) {
-    let argString = command.args.join(",");
+    let argString = "";
+    command.args.forEach(function (argument) {
+        if (typeof argument === "string") {
+            argString += "\"" + argument + "\"";
+        } else {
+            argString += argument;
+        }
+        argString += ","
+    });
+    if(command.args >= 0) {
+        argString = argString.substr(0,argString.length-1);
+    }
     return '{command = "' + command.command + '" , args = {' + argString + '}}';
 }
 

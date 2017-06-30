@@ -41,6 +41,8 @@ module.exports.init = function () {
  */
 module.exports.findItem = function (args) {
     let item = args[0];
+    // We want to continue of we don't care which item it is.
+    if(item === "all") return true;
     console.log("[ItempMap] trying to find " + item);
     let index = item.indexOf(":");
     if (index >= 0) {
@@ -50,14 +52,13 @@ module.exports.findItem = function (args) {
             return false;
         }
         console.log("[ItemMap] trying to find " + itemName + " in " + modName);
-        let found = map[modName].contains(itemName);
-        args[0] = "\"" + item +"\""
-        return found;
+        return map[modName].contains(itemName);
     } else {
         for (let modName in map) {
             console.log("[ItemMap] trying to find " + item + " in " + modName);
             if (map[modName].contains(item)) {
-                args[0] = "\""  + modName + ":" + item + "\"";
+                // Change the itemname to the complete itemname
+                args[0] = modName + ":" + item;
                 return true;
             }
         }
