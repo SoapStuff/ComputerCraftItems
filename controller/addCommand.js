@@ -5,7 +5,8 @@ var express = require('express'),
     validate = require('../lib/validator').validate,
     commandbase = require('../model/commandbase'),
     url = require("url"),
-    router = express.Router();
+    router = express.Router(),
+    itemmap = require("../model/itemmap");
 
 /**
  *
@@ -24,10 +25,15 @@ router.get("/", function(request,response) {
     if(!validate(query.command,args,response)) {
         return;
     }
+    if(!itemmap.findItem(args)) {
+        response.send("Item not found in itemlist");
+        return;
+    }
     let command = {
         command: query.command,
         args: args
     };
+
     commandbase.enqueueCommand(command, function () {
         response.send("Command Added");
     });
