@@ -10,21 +10,21 @@ var express = require('express'),
  * Returns the first queued command.
  */
 router.get("/", function (request, response) {
-    let commands = commandbase.getCommands();
+    var commands = commandbase.getCommands();
 
-    let command = commands.dequeue();
+    var command = commands.dequeue();
     // No commands
     if (command === undefined) {
         response.send(responseString({command: "No Commands", args: []}));
         return;
     }
 
-    let string = responseString(command);
+    var string = responseString(command);
     response.send(string)
 });
 
 function responseString(command) {
-    let argString = "";
+    var argString = "";
     command.args.forEach(function (argument) {
         if (typeof argument === "string") {
             argString += "\"" + argument + "\"";
