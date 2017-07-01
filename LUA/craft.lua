@@ -10,6 +10,6 @@ function requestCrafting(itemName,amount,data,state)
         id = itemName,
         dmg = data
     }
-    state.interface.requestCrafting(item,amount)
+    pcall(function() state.interface.requestCrafting(item,amount) end);
 end
 
