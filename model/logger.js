@@ -1,14 +1,25 @@
 /**
  * Created by Stijn on 01/07/2017.
  */
-var logCommands, logRequests, logServer, logItembase;
+var logCommands, logRequests, logServer, logItembase, logTurtles;
 
 module.exports.init = function (argument) {
-    if (argument !== undefined && argument === 'false') {
-        logCommands = false;
-        logRequests = false;
-        logServer = false;
-        logItembase = false;
+    if (argument !== undefined) {
+        if (argument === 'false') {
+            logCommands = false;
+            logRequests = false;
+            logServer = false;
+            logItembase = false;
+            logTurtles = false;
+        }
+        if (argument === 'turtle') {
+            console.log("[Logger] started in turtle mode");
+            logCommands = false;
+            logRequests = false;
+            logServer = false;
+            logItembase = false;
+            logTurtles = true;
+        }
     } else {
         logCommands = true;
         logRequests = true;
@@ -22,38 +33,7 @@ module.exports.stopAll = function () {
     logRequests = false;
     logServer = false;
     logItembase = false;
-};
-
-module.exports.startRequestLog = function () {
-    logRequests = true;
-};
-
-module.exports.stopRequestLog = function () {
-    logRequests = false;
-};
-
-module.exports.startCommandLog = function () {
-    logCommands = true;
-};
-
-module.exports.stopCommandLog = function () {
-    logCommands = false;
-};
-
-module.exports.startServerLog = function () {
-    logServer = true;
-};
-
-module.exports.stopServerLog = function () {
-    logServer = false;
-};
-
-module.exports.startItembaseLog = function () {
-    logItembase = true;
-};
-
-module.exports.stopItembaseLog = function () {
-    logItembase = false;
+    logTurtles = false;
 };
 
 module.exports.log = function (string) {
@@ -69,6 +49,8 @@ module.exports.log = function (string) {
     if (!logItembase && string.indexOf('Itembase') !== -1) {
         return;
     }
-
+    if (!logTurtles && string.indexOf('Turtles') !== -1) {
+        return;
+    }
     console.log(string);
 };

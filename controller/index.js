@@ -21,5 +21,6 @@ router.use("/getItems", require("./getItems"));
 router.use("/sendItems", require("./sendItems"));
 router.use("/addCommand", require("./addCommand"));
 router.use("/getCommand", require("./getCommand"));
+router.use("/connectTurtle", require('./connectTurtle'));
 
 module.exports = router;
