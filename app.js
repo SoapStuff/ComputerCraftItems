@@ -7,10 +7,12 @@ const bodyParser = require("body-parser");
 const app = express();
 const port = process.argv[2];
 
-var itembase = require('./model/itembase');
-var commandbase = require('./model/commandbase');
+const logger = require('./model/logger');
+const itembase = require('./model/itembase');
+const commandbase = require('./model/commandbase');
 const itemmap = require("./model/itemmap");
 
+logger.init(process.argv[3]);
 itembase.init();
 commandbase.init();
 itemmap.init();
@@ -28,4 +30,4 @@ app.set('view engine', 'ejs');
 app.use("/", require("./controller"));
 
 http.createServer(app).listen(port);
-console.log("[Server] Server started on port " + port);
+logger.log("[Server] Server started on port " + port);

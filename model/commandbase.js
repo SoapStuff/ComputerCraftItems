@@ -1,7 +1,8 @@
 /**
  * Created by Stijn on 29/06/2017.
  */
-const Queue = require("../lib/Queue.js");
+const Queue = require("../lib/Queue.js"),
+    logger = require('./logger');
 
 var commands;
 
@@ -16,7 +17,7 @@ exports.init = function () {
 };
 
 exports.getCommands = function (callback) {
-    console.log("[Commandbase] Commands requested");
+    logger.log("[Commandbase] Commands requested");
     if (callback) {
         callback(commands);
     }
@@ -25,9 +26,9 @@ exports.getCommands = function (callback) {
 
 exports.enqueueCommand = function(command, callback) {
     commands.enqueue(command);
-    console.log("[Commandbase] Command enqueued");
+    logger.log("[Commandbase] Command enqueued");
     if (callback) {
         callback();
     }
-    console.log(commands.queue);
+    logger.log("[Commandbase] " + commands.queue);
 };

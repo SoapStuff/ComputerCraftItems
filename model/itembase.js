@@ -1,6 +1,8 @@
 /**
  * Created by Stijn on 29/06/2017.
  */
+const logger = require('./logger');
+
 var items;
 
 exports.init = function () {
@@ -8,7 +10,7 @@ exports.init = function () {
 };
 
 exports.getItems = function (callback) {
-    console.log("[Itembase] Items requested");
+    logger.log("[Itembase] Items requested");
     if (callback) {
         callback(items);
     }
