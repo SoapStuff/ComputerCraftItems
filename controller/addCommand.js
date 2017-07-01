@@ -13,18 +13,18 @@ var express = require('express'),
  *
  */
 router.get("/", function(request,response) {
-    let query = url.parse(request.url,true).query;
+    var query = url.parse(request.url,true).query;
 
     if(query.command === undefined || query.args=== undefined) {
         response.send("The command was invalid");
         return;
     }
 
-    let args = query.args.split(",");
+    var args = query.args.split(",");
     if(!validate(query.command,args,response)) {
         return;
     }
-    let command = {
+    var command = {
         command: query.command,
         args: args
     };

@@ -7,12 +7,12 @@ var express = require("express"),
     itembase = require('../model/itembase');
 
 router.get("/",function(request,response) {
-    let query = url.parse(request.url,true).query;
-    let string = query.string;
+    var query = url.parse(request.url,true).query;
+    var string = query.string;
     console.log("reached");
     if(string !== undefined) {
         itembase.getItems(function (items) {
-            let array = items.filter(function(value){
+            var array = items.filter(function(value){
                 return value.indexOf(string) !== -1;
             });
             response.send(array.join(","));
