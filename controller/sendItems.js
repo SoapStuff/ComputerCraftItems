@@ -7,10 +7,8 @@ var express = require("express"),
 
 router.post("/", function(request,response) {
     if(request.body.args) {
-        itembase.getItems(function (items) {
-            items = request.body.args.split(",");
-            response.send("Items added");
-        });
+        itembase.setItems(request.body.args);
+        response.send("Items added");
     }
 });
 

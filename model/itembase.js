@@ -17,3 +17,8 @@ exports.getItems = function (callback) {
 
     return items;
 };
+
+exports.setItems = function (args) {
+    logger.log("[Itembase] Items updated");
+    items = args.split(",");
+};
