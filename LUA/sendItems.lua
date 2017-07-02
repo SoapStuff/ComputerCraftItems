@@ -7,7 +7,7 @@
 --
 function sendItems(state)
     local stacks = state.interface.getAvailableItems()
-    local string = ""
+    local string = "args="
     for i=1,#stacks do
         local stack = stacks[i]
         local fingerprint = stack["fingerprint"]
