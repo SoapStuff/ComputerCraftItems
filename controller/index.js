@@ -24,5 +24,8 @@ router.use("/sendItems", require("./sendItems"));
 router.use("/addCommand", require("./addCommand"));
 router.use("/getCommand", require("./getCommand"));
 router.use("/connectTurtle", require('./connectTurtle'));
+router.use("/addAction", require("./addAction"));
+router.use("/getAction", require("./getAction"));
+router.use("/resolveAction", require("./resolveAction"));
 
 module.exports = router;

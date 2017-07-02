@@ -8,18 +8,15 @@ const express = require('express'),
 
 
 /**
- * Returns the turtle the next action in its queue.
+ * Resolves the action send.
  */
 router.get("/", function (request, response) {
     var query = url.parse(request.url, true).query;
     var id = query.id;
+    var action = query.action;
 
-    turtlebase.getAction(id, function (action) {
-        if (action !== undefined) {
-            response.send(action);
-        } else {
-            response.send("nil");
-        }
+    turtlebase.resolveAction(id, action, function (success) {
+        response.send(success + "");
     });
 });
 
