@@ -30,5 +30,4 @@ exports.enqueueCommand = function(command, callback) {
     if (callback) {
         callback();
     }
-    logger.log("[Commandbase] " + commands.queue);
 };
