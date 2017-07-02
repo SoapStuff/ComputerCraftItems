@@ -1,10 +1,13 @@
 /**
  * Created by Stijn on 29/06/2017.
  */
-var express = require("express"),
+const express = require("express"),
     router = express.Router(),
     itembase = require('../model/itembase');
 
+/**
+ * Method that handles the post request that sends the items in the system to the server.
+ */
 router.post("/", function(request,response) {
     if(request.body.args) {
         itembase.setItems(request.body.args);

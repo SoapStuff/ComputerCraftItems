@@ -1,7 +1,7 @@
 /**
  * Created by Stijn on 29/06/2017.
  */
-var express = require('express'),
+const express = require('express'),
     validate = require('../lib/validator').validate,
     commandbase = require('../model/commandbase'),
     url = require("url"),

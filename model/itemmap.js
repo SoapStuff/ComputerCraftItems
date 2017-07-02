@@ -13,6 +13,11 @@ const map = {
     minecraft: new BST()
 };
 
+/**
+ * Insert an item in the search tree.
+ *
+ * @param item The item to insert
+ */
 insert = function (item) {
     var completeName = item.split(',')[0];
     var index = completeName.indexOf(":");
@@ -27,6 +32,9 @@ insert = function (item) {
     }
 };
 
+/**
+ * Inits the itemmap with the required content.
+ */
 module.exports.init = function () {
     CSV.init();
     var blocks = CSV.getBlocks();
