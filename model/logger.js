@@ -3,6 +3,16 @@
  */
 var logCommands, logRequests, logServer, logItembase, logTurtles, logCSV, logItemmap;
 
+/**
+ * Inits the logger based on the passed argument:
+ *
+ * <none>/'true' The logger logs everything
+ * 'turtle' The logger only logs turtle related stuff
+ * 'false' The logger logs nothing
+ *
+ * @param argument The passed argument
+ */
+
 module.exports.init = function (argument) {
     if (argument !== undefined) {
         if (argument === 'false') {
@@ -44,6 +54,9 @@ module.exports.init = function (argument) {
     }
 };
 
+/**
+ * Stops all logging.
+ */
 module.exports.stopAll = function () {
     logCommands = false;
     logRequests = false;
@@ -54,6 +67,11 @@ module.exports.stopAll = function () {
     logCSV = false;
 };
 
+/**
+ * Logs specified string if it should be logged.
+ *
+ * @param string The string to log (or not to log (that is the question))
+ */
 module.exports.log = function (string) {
     if (!logCommands && string.indexOf('Commandbase') !== -1) {
         return;

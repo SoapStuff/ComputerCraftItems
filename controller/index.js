@@ -1,11 +1,14 @@
 /**
  * Created by Stijn on 29/06/2017.
  */
-var express = require('express'),
+const express = require('express'),
     itembase = require('../model/itembase'),
     router = express.Router(),
     logger = require('../model/logger');
 
+/**
+ * Prints the request made when a request is made and returns a webpage if it is the default request.
+ */
 router.use(function (request, response, next) {
     logger.log("[Request] " + request.method + " " + request.url);
     if (request.method === "GET" && request.url === "/") {
@@ -15,7 +18,6 @@ router.use(function (request, response, next) {
     }
     next();
 });
-
 
 router.use("/getItems", require("./getItems"));
 router.use("/sendItems", require("./sendItems"));

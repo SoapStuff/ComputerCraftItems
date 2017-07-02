@@ -1,7 +1,7 @@
 /**
  * Created by Stijn on 29/06/2017.
  */
-var express = require('express'),
+const express = require('express'),
     commandbase = require('../model/commandbase'),
     url = require("url"),
     router = express.Router();
@@ -23,6 +23,11 @@ router.get("/", function (request, response) {
     response.send(string)
 });
 
+/**
+ * Method that creates a response string from a given command
+ * @param command The command to turn into a string
+ * @returns {string} The response string
+ */
 function responseString(command) {
     var argString = "";
     command.args.forEach(function (argument) {

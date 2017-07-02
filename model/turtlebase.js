@@ -6,10 +6,19 @@ const logger = require('./logger'),
 
 var turtles;
 
+/**
+ * Inits the turtlebase with an empty array.
+ */
 module.exports.init = function () {
     turtles = [];
 };
 
+/**
+ * Adds a new turtle to the turtle array if it is not in the array yet.
+ *
+ * @param turtleId The id of the new turtle
+ * @param callback Calls back after the turtle has been added
+ */
 module.exports.newTurtle = function (turtleId, callback) {
     var found = false;
     turtleId = parseInt(turtleId);
@@ -31,9 +40,17 @@ module.exports.newTurtle = function (turtleId, callback) {
         logger.log("[Turtles] New turtle added with id " + turtle.id);
     }
 
-    callback("" + turtle.id);
+    callback(turtle.id + "");
 };
 
+/**
+ * The turtle class.
+ *
+ * @param turtleId The id of the new turtle
+ * @param queue The queue of commands for the turtle
+ * @returns {Turtle} Returns the turtle
+ * @constructor Constructs a turtle
+ */
 function Turtle(turtleId, queue) {
     this.id = turtleId;
 

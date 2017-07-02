@@ -16,6 +16,12 @@ exports.init = function () {
     commands = new Queue();
 };
 
+/**
+ * Get the commands queue.
+ *
+ * @param callback A callback
+ * @returns {*} The command queue
+ */
 exports.getCommands = function (callback) {
     logger.log("[Commandbase] Commands requested");
     if (callback) {
@@ -24,6 +30,12 @@ exports.getCommands = function (callback) {
     return commands;
 };
 
+/**
+ * Puts a command in the command queue.
+ *
+ * @param command The command to enqueue
+ * @param callback A callback
+ */
 exports.enqueueCommand = function(command, callback) {
     commands.enqueue(command);
     logger.log("[Commandbase] Command enqueued");
