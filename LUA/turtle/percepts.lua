@@ -16,4 +16,9 @@ function rsPercepts()
     return left, right, front, back, bottom, top
 end
 
-rsPercepts()
+function blockPercepts()
+    local front = turtle.detect()
+    local top = turtle.detectUp()
+    local bot = turtle.detectDown()
+    return front, top, bot
+end

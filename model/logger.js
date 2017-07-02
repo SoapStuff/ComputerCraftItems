@@ -25,6 +25,7 @@ module.exports.init = function (argument) {
         logRequests = true;
         logServer = true;
         logItembase = true;
+        logTurtles = true;
     }
 };
 

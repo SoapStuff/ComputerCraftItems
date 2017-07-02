@@ -3,10 +3,14 @@
  */
 const express = require('express'),
     router = express.Router(),
-    turtlebase = require('../model/turtlebase');
+    turtlebase = require('../model/turtlebase'),
+    url = require('url');
 
 router.get("/", function (request, response) {
-    turtlebase.newTurtle(function (id) {
+    var query = url.parse(request.url, true).query;
+    var id = query.id;
+
+    turtlebase.newTurtle(id, function (id) {
         response.send(id);
     });
 });
