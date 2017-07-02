@@ -53,19 +53,19 @@ module.exports.findItem = function (args) {
             return false;
         }
         logger.log("[ItemMap] trying to find " + itemName + " in " + modName);
-        var foundString = map[modName].contains(itemName);
-        if(foundString) {
-            args[0] = modName + ":" + foundString;
+        var foundObject = map[modName].contains(itemName);
+        if(foundObject) {
+            args[0] = modName + ":" + foundObject.value;
             return true;
         }
         return false;
     } else {
         for (var modName in map) {
             logger.log("[ItemMap] trying to find " + item + " in " + modName);
-            var foundString = map[modName].contains(item)
-            if (foundString) {
+            var foundObject = map[modName].contains(item)
+            if (foundObject) {
                 // Change the itemname to the complete itemname
-                args[0] = modName + ":" + foundString;
+                args[0] = modName + ":" + foundObject.value;
                 return true;
             }
         }
