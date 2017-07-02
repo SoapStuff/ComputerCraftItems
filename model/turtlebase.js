@@ -3,7 +3,9 @@
  */
 const logger = require('./logger'),
     Queue = require('../lib/Queue'),
-    validator = require('../lib/validator');
+    validator = require('../lib/validator'),
+    Turtle = require('../lib/Turtle'),
+    Action = require('../lib/Action');
 
 var turtles;
 
@@ -50,7 +52,7 @@ module.exports.newTurtle = function (turtleId, callback) {
  * @param id The id of the turtle
  * @param callback The callback
  */
-module.exports.getAction = function(id, callback) {
+module.exports.getAction = function (id, callback) {
     getTurtle(id, function (turtle) {
         if (turtle !== undefined) {
             logger.log("[Turtles] Returning next command of turtle with id " + id);
@@ -114,81 +116,6 @@ module.exports.resolveAction = function (id, actionString, callback) {
 };
 
 /**
- * The turtle class.
- *
- * @param turtleId The id of the new turtle
- * @param queue The queue of commands for the turtle
- * @param resolving The array that holds action that are in progress
- * @returns {Turtle} Returns the turtle
- * @constructor Constructs a turtle
- */
-function Turtle(turtleId, queue, resolving) {
-    this.id = turtleId;
-
-    this.queue = queue;
-    this.resolving = resolving;
-
-    this.queueAction = function (action, callback) {
-        validator.validateAction(action, function (succes) {
-            if (succes) {
-                logger.log("[Turtles] Action is valid and has been added");
-                queue.enqueue(action);
-            } else {
-                logger.log("[Turtles] Action is invalid");
-            }
-
-            if (callback !== undefined) {
-                callback(succes);
-            }
-
-            return succes;
-        });
-    };
-
-    this.getNextAction = function (callback) {
-        var action = queue.dequeue();
-        resolving.push(action);
-        action.getActionString(function (actionString) {
-            callback(actionString);
-        });
-    };
-
-    this.resolveAction = function (action, callback) {
-        var found = false;
-        var resolveArray = this.resolving;
-
-        for (var i = 0; i < resolveArray.length; i++) {
-            if (resolveArray[i].equals(action)) {
-                found = true;
-                resolving = resolveArray.splice(i,1);
-                logger.log("[Turtles] Resolved action " + action);
-                break;
-            }
-        }
-
-        if (!found) {
-            logger.log("[Turtles] Action not found in array");
-        }
-
-        if (callback !== undefined) {
-            callback(found);
-        }
-    };
-
-    this.hasNextAction = function (callback) {
-        const hasNext = !queue.isEmpty();
-
-        if (callback !== undefined) {
-            callback(hasNext);
-        }
-
-        return hasNext;
-    };
-
-    return this;
-}
-
-/**
  * Gets the requested turtle.
  *
  * @param id        The id of the turtle
@@ -214,50 +141,3 @@ var getTurtle = function (id, callback) {
 };
 
 module.exports.getTurtle = getTurtle;
-/**
- * Constructor for an action.
- *
- * @returns {Action}    The newly made action
- * @constructor
- */
-function Action(actionString) {
-    var description = actionString.split(",")[0];
-    var parameterString = actionString.substr(description.length,actionString.length);
-
-    var args = parameterString.split(",");
-    args = args.splice(1,args.length);
-
-    var action = actionString;
-
-    logger.log("[Turtles] Created new action with description: " + description);
-
-    this.action = action;
-    this.args = args;
-    this.description = description;
-
-    this.getActionString = function (callback) {
-        if (callback !== undefined) {
-            callback(action);
-        }
-
-        return action;
-    };
-
-    this.equals = function (otherString, callback) {
-        const equals = action === otherString;
-
-        if (callback !== undefined) {
-            callback(equals);
-        }
-
-        if (equals) {
-            logger.log("[Turtles] Action " + action + " is equal to " + otherString);
-        } else {
-            logger.log("[Turtles] Action " + action + " is not equal to " + otherString);
-        }
-
-        return equals;
-    };
-
-    return this;
-}
