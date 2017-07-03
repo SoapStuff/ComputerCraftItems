@@ -12,9 +12,7 @@ const express = require('express'),
 router.use(function (request, response, next) {
     logger.log("[Request] " + request.method + " " + request.url);
     if (request.method === "GET" && request.url === "/") {
-        itembase.getItems(function (items) {
-            response.render("index.ejs", {items: items});
-        });
+        router.use(require('./renderPage'));
     }
     next();
 });
