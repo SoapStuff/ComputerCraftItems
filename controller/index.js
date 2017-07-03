@@ -27,5 +27,6 @@ router.use("/connectTurtle", require('./connectTurtle'));
 router.use("/addAction", require("./addAction"));
 router.use("/getAction", require("./getAction"));
 router.use("/resolveAction", require("./resolveAction"));
+router.use("/getTurtleIDList", require('./getTurtleIDList'));
 
 module.exports = router;
