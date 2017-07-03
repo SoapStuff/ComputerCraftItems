@@ -18,6 +18,8 @@ function resolveAction(resolve, action, performed)
         local resolved = http.get(resolve .. action).readLine()
         if (resolved == "true") then
             print("Action resolved")
+        else
+            print("Action not resolved")
         end
     else
         print("Action " .. action .. " not performed")
