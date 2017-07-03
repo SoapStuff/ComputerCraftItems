@@ -141,3 +141,23 @@ var getTurtle = function (id, callback) {
 };
 
 module.exports.getTurtle = getTurtle;
+
+/**
+ * Get a list with turtle id's
+ *
+ * @param callback A callback
+ */
+module.exports.getTurtleIDList = function (callback) {
+    if (turtles.length > 0) {
+        var idList = "";
+        for (var i = 0; i < turtles.length; i++) {
+            idList += turtles[i].id + ",";
+        }
+        idList = idList.substr(0,idList.length - 1);
+        logger.log("[Turtles] Returning ID list " + idList);
+        callback(idList)
+    } else {
+        logger.log("[Turtles] No turtle in memory");
+        callback("nil");
+    }
+};
