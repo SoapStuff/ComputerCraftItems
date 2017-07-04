@@ -10,8 +10,6 @@ local ip = "http://wyvern.xyz:5300/"
 local request = ip .. "getAction?id=" .. id
 local resolve = ip .. "resolveAction?id=" .. id .. "&action="
 
-local response = http.get(request).readLine()
-
 function resolveAction(resolve, action, performed)
     if (performed) then
         print("Action " .. action .. " performed")
@@ -84,9 +82,14 @@ function handleAction(resolve, action)
     end
 end
 
-if (response == "nil") then
-    print("No action found")
-else
-    print("Action " .. response .. " found")
-    handleAction(resolve, response)
+function getAction()
+    local response = http.get(request).readLine()
+
+    if (response == "nil") then
+        print("No action found")
+        return false
+    else
+        print("Action " .. response .. " found")
+        return handleAction(resolve, response)
+    end
 end
