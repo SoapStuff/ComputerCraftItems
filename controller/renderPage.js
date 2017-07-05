@@ -3,13 +3,27 @@
  */
 const express = require('express'),
     router = express.Router(),
-    itembase = require('../model/itembase');
+    itembase = require('../model/itembase'),
+    sessions = require('../model/sessions');
 
 
 router.get("/", function (request, response) {
+    var cookieString = request.headers.cookie;
 
-    itembase.getItems(function (items) {
-        response.render("index.ejs", {items: items});
+    var sessionCookie = parseInt(cookieString.substr(cookieString.indexOf("session=") + 8, cookieString.length));
+
+    sessions.getSession(sessionCookie, function (session) {
+        itembase.getItems(function (items) {
+            var renderSpecs;
+
+            if (session !== undefined) {
+                renderSpecs = {items: items, validated: session !== undefined, page : session.page};
+            } else {
+                renderSpecs = {items: items, validated: session !== undefined, page : 'index'}
+            }
+
+            response.render("index.ejs", renderSpecs);
+        });
     });
 });
 

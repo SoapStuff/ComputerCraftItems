@@ -12,19 +12,21 @@ const itembase = require('./model/itembase');
 const commandbase = require('./model/commandbase');
 const itemmap = require("./model/itemmap");
 const turtlebase = require("./model/turtlebase");
+const sessions = require("./model/sessions");
 
 logger.init(process.argv[3]);
 itembase.init();
 commandbase.init();
 itemmap.init();
 turtlebase.init();
+sessions.init();
 
 app.use(bodyParser.json() );       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
     extended: true
 }));
 
-app.use(express.static(__dirname + '/view/static'));
+app.use(express.static(__dirname + '/view'));
 
 app.set('views',__dirname + '/view');
 app.set('view engine', 'ejs');
