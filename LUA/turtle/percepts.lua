@@ -22,3 +22,47 @@ function blockPercepts()
     local bot = turtle.detectDown()
     return front, top, bot
 end
+
+function fuelPercpets()
+    local fuelLevel = turtle.getFuelLevel()
+    local fuelLimit = turtle.getFuelLimit()
+    return fuelLevel, fuelLimit
+end
+
+function sendPercepts(url)
+    local leftRS, rightRS, frontRS, backRS, bottomRS, topRS = rsPercepts()
+    local frontBlock, topBlock, botBlock = blockPercepts()
+    local fuelLevel, fuelLimit = fuelPercpets()
+    local content = "/rsPercepts"
+    local request
+    local nextAction = false
+
+    content = content .. "?leftRS=" .. leftRS
+    content = content  .. "&rightRS=" .. rightRS
+    content = content .. "&frontRS=" .. frontRS
+    content = content ..  "&backRS=" .. backRS
+    content = content .. "&bottomRS=" .. bottomRS
+    content = content .. "&topRS=" .. topRS
+
+    request = url .. content
+    nextAction = (http.get(request).readLine() ~= "nil") or (nextAction)
+
+    content = "/blockPercepts"
+
+    content = content .. "?frontBlock=" .. frontBlock
+    content = content .. "&topBlock=" .. topBlock
+    content = content .. "&botBlock=" .. botBlock
+
+    request = url .. content
+    nextAction = (http.get(request).readLine() ~= "nil") or (nextAction)
+
+    content = "/fuelLevel"
+
+    content = content .. "?fuelLevel=" .. fuelLevel
+    content = content .. "&fuelLimit=" .. fuelLimit
+
+    request = url .. content
+    nextAction = (http.get(request).readLine() ~= "nil") or (nextAction)
+
+    return nextAction
+end
