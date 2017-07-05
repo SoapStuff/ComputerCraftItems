@@ -13,6 +13,7 @@ A system to connect an applied energistics system to minecraft turtles and compu
 ## External Links
 |                     | Link                                |
 | --------------------| ----------------------------------- |
+| Applied energistics | http://ae-mod.info/                 |
+| OpenPeripheral	  |	https://www.openmods.info/			|
 | Computer Craft      | http://www.computercraft.info/      |
 | Minecraft Mojang    | https://minecraft.net               |
-| Applied energistics | http://ae-mod.info/                 |
