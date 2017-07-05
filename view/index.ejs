@@ -3,12 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <title>Item Overview</title>
+    <link href="static/css/index.css" rel="stylesheet">
+    <script src="static/script/jquery-3.1.1.min.js"></script>
+    <script src="static/script/jquery.cookie-1.4.1.min.js"></script>
+    <script src="static/script/index.js"></script>
 </head>
 <body>
-<ul>
-<% items.forEach(function(item) { %>
-    <li> <%= item%> </li>
-<% }) %>
-</ul>
+<% if (!validated) { %>
+<div class="center">
+    <p>Login to the wyvern item system:</p>
+    <label>
+        <input type="text" placeholder="username" id="username">
+        <input type="password" placeholder="password" id="password">
+        <button onclick="login()">login</button>
+    </label>
+</div>
+<% }else{ %>
+<% switch(page) {
+    case 'itemsystem': %>
+
+<% break;
+    case 'turtlesystem': %>
+
+<% break;
+    case 'index': %>
+
+<% default: %>
+<div class="center"><img src="static/imgs/me_drive.png"><img src="static/imgs/turtle.png"></div>
+<% break;
+    }} %>
 </body>
 </html>

@@ -1,0 +1,21 @@
+img {
+    height: 200px;
+    width: 200px;
+}
+
+input {
+    width: 100%;
+}
+
+button {
+    width: 80%;
+    align-self: center;
+}
+
+
+div.center {
+    margin: 15% auto auto;
+    width: 25%;
+    border: 3px solid green;
+    padding: 10px;
+}

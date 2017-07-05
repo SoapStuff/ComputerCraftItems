@@ -12,9 +12,7 @@ const express = require('express'),
 router.use(function (request, response, next) {
     logger.log("[Request] " + request.method + " " + request.url);
     if (request.method === "GET" && request.url === "/") {
-        itembase.getItems(function (items) {
-            response.render("index.ejs", {items: items});
-        });
+        router.use(require('./renderPage'));
     }
     next();
 });
@@ -28,5 +26,6 @@ router.use("/addAction", require("./addAction"));
 router.use("/getAction", require("./getAction"));
 router.use("/resolveAction", require("./resolveAction"));
 router.use("/getTurtleIDList", require('./getTurtleIDList'));
+router.use("/login", require('./login'));
 
 module.exports = router;

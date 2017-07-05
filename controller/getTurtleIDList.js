@@ -8,7 +8,7 @@ const express = require('express'),
 /**
  * Returns a list with all turtle id's.
  */
-router.use("/", function (request, response) {
+router.get("/", function (request, response) {
     turtlebase.getTurtleIDList(function (idList) {
         response.send(idList);
     })
