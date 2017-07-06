@@ -8,7 +8,7 @@ const express = require('express'),
 router.post('/', function (request, response) {
     var details = request.body;
 
-    var validated = details.username === "golem" && details.password === 'Pilmus';
+    var validated = details.username === 'golem' && details.password === 'Pilmus';
 
     if (validated) {
         sessions.newSession(function (sessionID) {
