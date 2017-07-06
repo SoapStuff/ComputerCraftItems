@@ -1,35 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Item Overview</title>
-    <link href="static/css/index.css" rel="stylesheet">
-    <script src="static/script/jquery-3.1.1.min.js"></script>
-    <script src="static/script/jquery.cookie-1.4.1.min.js"></script>
-    <script src="static/script/index.js"></script>
+    <%- include ../ejs/header.ejs%>
 </head>
 <body>
 <% if (!validated) { %>
-<div class="center">
-    <p>Login to the wyvern item system:</p>
-    <label>
-        <input type="text" placeholder="username" id="username">
-        <input type="password" placeholder="password" id="password">
-        <button onclick="login()">login</button>
-    </label>
-</div>
+    <%- include ../ejs/loginPage.ejs %>
 <% }else{ %>
+
 <% switch(page) {
     case 'itemsystem': %>
+    <% var data = items%>
+    <%- include ../ejs/itemsystemPage.ejs %>
 
 <% break;
     case 'turtlesystem': %>
+    <% if (turtleList !== "nil") { %>
+        <% data = turtleList.split(",")%>
+        <%- include ../ejs/turtlesystemPage.ejs %>
+    <% }else{ %>
+        <%- include ../ejs/indexPage.ejs %>
+    <%}%>
 
 <% break;
     case 'index': %>
-
 <% default: %>
-<div class="center"><img src="static/imgs/me_drive.png"><img src="static/imgs/turtle.png"></div>
+    <%- include ../ejs/indexPage.ejs %>
+
 <% break;
     }} %>
 </body>

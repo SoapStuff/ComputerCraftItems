@@ -1,6 +1,35 @@
-img {
+img.index {
     height: 200px;
     width: 200px;
+}
+
+img.foreground {
+    position: relative;
+    margin-top: 1%;
+    margin-left: 1%;
+    width: 10%;
+    height: auto;
+}
+
+img.background {
+    position: absolute;
+    width: 12%;
+    height: auto;
+}
+
+li.hidden {
+    visibility: hidden;
+}
+
+img.upscroll {
+    width: 12%;
+    height: auto;
+}
+
+ul.turtles {
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
 
 input {
@@ -12,10 +41,19 @@ button {
     align-self: center;
 }
 
+div.leftBar {
+    width: 10%;
+    height: auto;
+}
 
 div.center {
     margin: 15% auto auto;
     width: 25%;
     border: 3px solid green;
     padding: 10px;
+}
+
+body {
+    background-color: #c6c6c6;
+    overflow: hidden;
 }

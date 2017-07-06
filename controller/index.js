@@ -27,5 +27,6 @@ router.use("/getAction", require("./getAction"));
 router.use("/resolveAction", require("./resolveAction"));
 router.use("/getTurtleIDList", require('./getTurtleIDList'));
 router.use("/login", require('./login'));
+router.use("/setPage", require('./setPage'));
 
 module.exports = router;

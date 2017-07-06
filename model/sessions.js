@@ -1,7 +1,8 @@
 /**
  * Created by Stijn on 05/07/2017.
  */
-const Session = require('../lib/Session');
+const Session = require('../lib/Session'),
+    logger = require('./logger');
 
 var sessions;
 
@@ -27,10 +28,14 @@ module.exports.getSession = function (sessionID, callback) {
     for (var i = 0; i < sessions.length; i++) {
         if (sessions[i].sessionID === sessionID) {
             session = sessions[i];
+            logger.log("[Sessions] Session found with id " + sessionID);
             break;
         }
     }
 
+    if (session === undefined) {
+        logger.log("[Sessions] Session with id " + sessionID + " not found");
+    }
 
     if (callback !== undefined) {
         callback(session);

@@ -1,0 +1,9 @@
+<ul class="turtles">
+    <li id="upscroll"><img class="upscroll" src="static/imgs/TempScrollArrow.png"></li>
+    <% data.forEach(function(turtle) { %>
+    <li class="hidden" id="<%= turtle%>" >
+        <img id="<%= turtle%>" class="background" onclick="selectTurtle(this)" src="static/imgs/unselectedSlot.png">
+        <img id="<%= turtle%>" class="foreground" onclick="selectTurtle(this)" src="static/imgs/turtle.png">
+    </li>
+    <% }) %>
+</ul>
