@@ -6,6 +6,7 @@ const BST = require("../lib/BinarySearchTree");
 const CSV = require("../lib/CSV-Parser");
 const fs = require("fs");
 const logger = require('./logger');
+const comparator = require("./StringComparator");
 /*
  * A map for all the items in the
  */
@@ -26,7 +27,7 @@ insert = function (item) {
     if (modName && itemName) {
         logger.log("[ItemMap]" + completeName + " has been inserted into the map");
         if (map[modName] === undefined) {
-            map[modName] = new BST();
+            map[modName] = new BST(comparator);
         }
         map[modName].add(itemName);
     }
@@ -41,42 +42,40 @@ module.exports.init = function () {
     var items = CSV.getItems();
     items.forEach(insert);
     blocks.forEach(insert);
-    fs.writeFile("myJson",JSON.stringify(map["minecraft"]),null,2);
 };
 
 /**
- * Returns true if the item is found.
- * Also modifies the string to the complete itemname.
+ * Returns the complete itemName of the found item.
+ * Returns null if it is not found;
  */
-module.exports.findItem = function (args) {
-    var item = args[0];
-    // We want to continue of we don't care which item it is.
-    if(item === "all") return true;
-    logger.log("[ItempMap] trying to find " + item);
+module.exports.findItem = function (item) {
+    var foundObject, modName;
+    if(!(typeof item === "string")) return null;
+
     var index = item.indexOf(":");
+    logger.log("[ItempMap] trying to find " + item);
+    // If index >= 0 then modname is known.
     if (index >= 0) {
-        var modName = item.substr(0, index);
+        modName = item.substr(0, index);
         var itemName = item.substr(index + 1);
         if(map[modName] === undefined) {
-            return false;
+            return null;
         }
         logger.log("[ItemMap] trying to find " + itemName + " in " + modName);
-        var foundObject = map[modName].contains(itemName);
-        if(foundObject) {
-            args[0] = modName + ":" + foundObject.value;
-            return true;
-        }
-        return false;
+        foundObject = map[modName].contains(itemName);
     } else {
-        for (var modName in map) {
+        //Search in all mods for the item.
+        for (var mod in map) {
             logger.log("[ItemMap] trying to find " + item + " in " + modName);
-            var foundObject = map[modName].contains(item)
-            if (foundObject) {
-                // Change the itemname to the complete itemname
-                args[0] = modName + ":" + foundObject.value;
-                return true;
+            foundObject = map[mod].contains(item);
+            if(foundObject) {
+                modName = mod;
+                break;
             }
         }
-        return false;
     }
+    if(foundObject) {
+        return modName + ":" + foundObject;
+    }
+    return null;
 };

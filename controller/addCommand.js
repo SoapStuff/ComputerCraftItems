@@ -25,10 +25,6 @@ router.get("/", function(request,response) {
     if(!validate(query.command,args,response)) {
         return;
     }
-    if(!itemmap.findItem(args)) {
-        response.send("Item not found in itemlist");
-        return;
-    }
     var command = {
         command: query.command,
         args: args
