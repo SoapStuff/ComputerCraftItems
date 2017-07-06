@@ -66,7 +66,7 @@ module.exports.findItem = function (item) {
     } else {
         //Search in all mods for the item.
         for (var mod in map) {
-            logger.log("[ItemMap] trying to find " + item + " in " + modName);
+            logger.log("[ItemMap] trying to find " + item + " in " + mod);
             foundObject = map[mod].contains(item);
             if(foundObject) {
                 modName = mod;
