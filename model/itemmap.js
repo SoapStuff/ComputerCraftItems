@@ -6,7 +6,7 @@ const BST = require("../lib/BinarySearchTree");
 const CSV = require("../lib/CSV-Parser");
 const fs = require("fs");
 const logger = require('./logger');
-const comparator = require("./StringComparator");
+const comparator = require("../lib/StringComparator");
 /*
  * A map for all the items in the
  */
