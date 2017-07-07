@@ -6,10 +6,19 @@ const Session = require('../lib/Session'),
 
 var sessions;
 
+/**
+ * Init function for the sessionbase.
+ */
 module.exports.init = function () {
     sessions = [];
 };
 
+/**
+ * Create a new session.
+ *
+ * @param callback A callback with the number of the session.
+ * @returns {number} Returns the sessionID
+ */
 module.exports.newSession = function (callback) {
     var sessionNumber = Math.floor((Math.random() * 100000) + 1);
 
@@ -21,6 +30,14 @@ module.exports.newSession = function (callback) {
 
     return sessionNumber
 };
+
+/**
+ * Get a session.
+ *
+ * @param sessionID The id of the session
+ * @param callback A callback with the session as param
+ * @returns {*} Returns the session
+ */
 
 module.exports.getSession = function (sessionID, callback) {
     var session;

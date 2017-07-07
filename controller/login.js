@@ -5,6 +5,9 @@ const express = require('express'),
     router = express.Router(),
     sessions = require('../model/sessions');
 
+/**
+ * Post request for validating a login.
+ */
 router.post('/', function (request, response) {
     var details = request.body;
 

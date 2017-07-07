@@ -5,6 +5,9 @@ const express = require('express'),
     router = express.Router(),
     sessions = require('../model/sessions');
 
+/**
+ * Set the page to the next page that should be visited.
+ */
 router.post("/", function (request, response) {
     var cookieString = request.headers.cookie;
 

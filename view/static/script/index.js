@@ -6,6 +6,9 @@ var firstIndex;
 var list;
 var selected;
 
+/**
+ * Function that allows for loggin in if both fields have been filled.
+ */
 function login() {
     var username = document.getElementById("username").value;
     var password = document.getElementById("password").value;
@@ -28,12 +31,20 @@ function login() {
 
 }
 
+/**
+ * Set the page of the session to the next page.
+ * @param page The page to go to
+ */
 function setPage(page) {
     $.post("/setPage", {page: page}).done(function () {
         location.reload(true);
     })
 }
 
+/**
+ * Select a turtle to be the selected turtle
+ * @param img The img element holding the turtle
+ */
 function selectTurtle(img) {
     var id = img.id;
     var imgList = document.getElementsByTagName("img");
@@ -51,6 +62,9 @@ function selectTurtle(img) {
     }
 }
 
+/**
+ * Display the turtles onscreen.
+ */
 function showTurtles() {
     for (var i = 0; i < 3; i++) {
         var index = i + firstIndex;
@@ -81,6 +95,10 @@ function showTurtles() {
     )
 }
 
+/**
+ * Clear the turtle list from the screen.
+ * @param callback A callback
+ */
 function removeTurtles(callback) {
     turtles.forEach(function (id) {
         var turtle = $('#' + id)[0];
@@ -99,6 +117,10 @@ function removeTurtles(callback) {
     callback();
 }
 
+/**
+ * Scroll up or down depending on the arrow pressed.
+ * @param direction The direction to scroll to
+ */
 function scroll(direction) {
     var index = firstIndex;
 
@@ -123,11 +145,16 @@ function scroll(direction) {
     });
 }
 
+/**
+ * The init function of the page.
+ */
 $(document).ready(function () {
-    $.get('/getTurtleIDList').done(function (data) {
-        turtles = data.split(",");
-        list = $("#turtle-container");
-        firstIndex = 0;
-        showTurtles();
-    });
+    if ($('#turtle-container')[0]) {
+        $.get('/getTurtleIDList').done(function (data) {
+            turtles = data.split(",");
+            list = $("#turtle-container");
+            firstIndex = 0;
+            showTurtles();
+        });
+    }
 });

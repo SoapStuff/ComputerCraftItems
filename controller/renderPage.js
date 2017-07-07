@@ -7,7 +7,9 @@ const express = require('express'),
     sessions = require('../model/sessions'),
     turtlebase = require('../model/turtlebase');
 
-
+/**
+ * Method for rendering a page on the client side.
+ */
 router.get("/", function (request, response) {
     var cookieString = request.headers.cookie;
 
