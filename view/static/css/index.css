@@ -21,9 +21,18 @@ li.hidden {
     visibility: hidden;
 }
 
-img.upscroll {
+img.up-scroll {
     width: 12%;
     height: auto;
+}
+
+img.down-scroll {
+    margin-top: 1%;
+    width: 12%;
+    height: auto;
+    -ms-transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+    transform: rotate(180deg);
 }
 
 ul.turtles {
