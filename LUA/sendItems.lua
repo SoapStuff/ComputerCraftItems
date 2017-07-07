@@ -7,17 +7,15 @@
 --
 function sendItems(state)
     local stacks = state.interface.getAvailableItems()
-    local string = "args="
+    local itemList = {};
     for i=1,#stacks do
-        local stack = stacks[i]
-        local fingerprint = stack["fingerprint"]
-        string = string .. fingerprint["id"] .. ":"
-        string = string .. fingerprint["dmg"] .. " "
-        string = string .. stack["size"]
-        if(i ~= #stacks) then
-            string = string .. ","
-        end
+        local detail = state.interface.getItemDetail(stacks[i]);
+        itemList.insert(detail);
     end
-    http.post(state.URL .. "/sendItems")
+    local arguments = {
+        action = "set",
+        items = itemList
+    }
+    http.post(state.URL .. "/sendItems",arguments);
 end
 
