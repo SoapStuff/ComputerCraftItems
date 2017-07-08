@@ -9,8 +9,8 @@ function sendItems(state)
     local stacks = state.interface.getAvailableItems()
     local itemList = {};
     for i=1,#stacks do
-        local detail = state.interface.getItemDetail(stacks[i]);
-        itemList.insert(detail);
+        local detail = state.interface.getItemDetail(stacks[i]["fingerprint"]);
+        table.insert(itemList,detail);
     end
     local arguments = {
         action = "set",
