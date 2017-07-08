@@ -41,6 +41,42 @@ function setPage(page) {
     })
 }
 
+
+function hideID(callback) {
+    var oldDiv = $('#id-div')[0];
+
+    if (oldDiv !== undefined) {
+        oldDiv.parentNode.removeChild(oldDiv);
+    }
+
+    if (callback !== undefined) {
+        callback();
+    }
+}
+
+function showID(item) {
+    var id = item.id;
+    var x = event.clientX;
+    var y = event.clientY;
+
+    hideID(function () {
+        var div = document.createElement('DIV');
+        div.style.position = 'absolute';
+        div.style.left = x + 'px';
+        div.style.top = y + 'px';
+        div.innerHTML = id;
+        div.id = 'id-div';
+
+        document.body.appendChild(div);
+    });
+}
+
+function clearPanel(callback) {
+    if (callback !== undefined) {
+        callback();
+    }
+}
+
 /**
  * Select a turtle to be the selected turtle
  * @param img The img element holding the turtle
@@ -60,6 +96,29 @@ function selectTurtle(img) {
             }
         }
     }
+
+    if (selected !== undefined) {
+        clearPanel(function () {
+            var details = {selected: selected};
+            $.post("/getTurtleDetails", details).done(function (data) {
+                var inventory = data.inventory;
+
+                var controls = data.controls;
+
+                var actions = data.actions;
+
+                var information = data.information;
+
+                document.body.appendChild(inventory);
+
+                document.body.appendChild(controls);
+
+                document.body.appendChild(actions);
+
+                document.body.appendChild(information);
+            })
+        });
+    }
 }
 
 /**
@@ -75,14 +134,14 @@ function showTurtles() {
 
         if (selected !== undefined && selected === turtles[index]) {
             list.append(
-                "<li id='" + turtles[index] + "' >" +
+                "<li id='" + turtles[index] + "' onmouseenter='showID(this)' onmouseleave='hideID()' >" +
                 "    <img id='" + turtles[index] + "' class='background' onclick='selectTurtle(this)' src='static/imgs/selectedSlot.png'> " +
                 "    <img id='" + turtles[index] + "' class='foreground' onclick='selectTurtle(this)' src='static/imgs/turtle.png'> " +
                 "</li>"
             )
         } else {
             list.append(
-                "<li id='" + turtles[index] + "' >" +
+                "<li id='" + turtles[index] + "' onmouseenter='showID(this)' onmouseleave='hideID()' >" +
                 "    <img id='" + turtles[index] + "' class='background' onclick='selectTurtle(this)' src='static/imgs/unselectedSlot.png'> " +
                 "    <img id='" + turtles[index] + "' class='foreground' onclick='selectTurtle(this)' src='static/imgs/turtle.png'> " +
                 "</li>"
@@ -92,7 +151,7 @@ function showTurtles() {
 
     list.append(
         "<li id='down-scroll'><img class='down-scroll' onclick='scroll()' src='static/imgs/TempScrollArrow.png'></li>"
-    )
+    );
 }
 
 /**
