@@ -12,10 +12,11 @@ function sendItems(state)
         local detail = state.interface.getItemDetail(stacks[i]["fingerprint"]);
         table.insert(itemList,detail);
     end
-    local arguments = {
+    local args = {
         action = "set",
         items = itemList
     }
-    http.post(state.URL .. "/sendItems",arguments);
+    postdata = textutils.serialiseJSON(args,true);
+    http.post(state.URL .. "/sendItems","request= " .. textutils.urlEncode(postdata));
 end
 
