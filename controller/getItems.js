@@ -22,7 +22,9 @@ router.get("/",function(request,response) {
         return
     }
     itembase.getItems(function (items) {
-        response.send(items.join(","));
+        response.send(items.map(function(item) {
+            return JSON.stringify(item);
+        }).join(","));
     });
 });
 

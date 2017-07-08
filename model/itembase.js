@@ -2,6 +2,8 @@
  * Created by Stijn on 29/06/2017.
  */
 const logger = require('./logger');
+const comparator = require('../lib/StringComparator');
+const BST = require("../lib/BinarySearchTree");
 
 var items;
 
@@ -9,7 +11,7 @@ var items;
  * Inits the itembase with an item array.
  */
 exports.init = function () {
-    items =  ["item1","item2","item3","item4","item5"];
+    items =  ["Item1","Item2","Item3"];
 };
 
 /**
@@ -33,6 +35,9 @@ exports.getItems = function (callback) {
  * @param args The array to set it to.
  */
 exports.setItems = function (args) {
-    items = args.split(",");
+    const json = JSON.parse(args);
+    if(json.action === "set") {
+        items = json.items;
+    }
     logger.log("[Itembase] Items updated");
 };
