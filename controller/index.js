@@ -29,5 +29,6 @@ router.use("/getTurtleIDList", require('./getTurtleIDList'));
 router.use("/login", require('./login'));
 router.use("/setPage", require('./setPage'));
 router.use("/getTurtleDetails", require('./getTurtleDetails'));
+router.use("/handleKeyPress", require('./handleKeyPress'));
 
 module.exports = router;

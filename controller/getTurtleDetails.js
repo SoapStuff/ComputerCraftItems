@@ -5,7 +5,8 @@ const express = require('express'),
     router = express.Router(),
     sessions = require('../model/sessions'),
     turtlebase = require('../model/turtlebase'),
-    panelBuilder = require('../lib/panelBuilder');
+    panelBuilder = require('../lib/panelBuilder'),
+    logger = require('../model/logger');
 
 router.post('/', function (request, response) {
     var cookieString = request.headers.cookie;
@@ -15,9 +16,11 @@ router.post('/', function (request, response) {
     sessions.getSession(sessionCookie, function (session) {
         if (session !== undefined) {
             turtlebase.getTurtle(request.body.selected, function (turtle) {
-                console.log(turtle);
-
-
+                panelBuilder.buildTurtlePanel(turtle, function (panel) {
+                    logger.log("[Panelbuilder] Sending panel:");
+                    console.log(panel);
+                    response.json(panel);
+                })
             })
         } else {
             response.json('failed');

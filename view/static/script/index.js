@@ -77,6 +77,13 @@ function clearPanel(callback) {
     }
 }
 
+function keyPressed(key) {
+    var details = {key : key.id, id : selected};
+    $.post("/handleKeyPress", details).done(function (data) {
+        console.log(data);
+    });
+}
+
 /**
  * Select a turtle to be the selected turtle
  * @param img The img element holding the turtle
@@ -103,19 +110,20 @@ function selectTurtle(img) {
             $.post("/getTurtleDetails", details).done(function (data) {
                 var inventory = data.inventory;
 
-                var controls = data.controls;
+                var control = document.createElement('DIV');
+                control.innerHTML = data.control;
+                control.style.marginLeft = '25%';
+                control.style.position = 'absolute';
+                control.style.marginTop = '-46%';
 
                 var actions = data.actions;
 
                 var information = data.information;
 
-                document.body.appendChild(inventory);
+                console.log(control);
 
-                document.body.appendChild(controls);
-
-                document.body.appendChild(actions);
-
-                document.body.appendChild(information);
+                document.body.append(control);
+                console.log(document.body);
             })
         });
     }

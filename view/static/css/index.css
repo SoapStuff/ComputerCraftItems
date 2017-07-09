@@ -66,7 +66,34 @@ div.center {
     padding: 10px;
 }
 
+div.control-panel {
+    margin-left: 20%;
+    position: absolute;
+}
+
 body {
     background-color: #c6c6c6;
     overflow: hidden;
+    position: relative;
+}
+
+img.key {
+    width: 100%;
+    height: auto;
+}
+
+img.rotate-left {
+    transform: scale(-1, 1);
+}
+
+img.forward-key {
+    transform: scale(-1);
+}
+
+img.left-key {
+    transform: rotate(90deg);
+}
+
+img.right-key {
+    transform: rotate(270deg);
 }
