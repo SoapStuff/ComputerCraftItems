@@ -49,7 +49,14 @@ function update(addItems,removeItems,updateItems)
         removeItems = removeItems,
         updateItems = updateItems
     }
-    httpPost(args);
+    print("Updating:")
+    print(#addItems)
+    print(#removeItems)
+    print(#updateItems)
+    print("-----------")
+    if #addItems ~= 0 or #removeItems ~= 0 or #updateItems ~= 0 then
+        httpPost(args);
+    end
 end
 
 -- Checks whether the new Item equals the old item and returns the difference in quantity
@@ -59,7 +66,7 @@ end
 -- @Param newItem
 function itemEquals(oldItem,newItem)
     local equals = oldItem["id"] == newItem["id"] and oldItem["dmg"] == newItem["dmg"]
-    local diff = newItem["amount"] - oldItem["amount"]
+    local diff = newItem["qty"] - oldItem["qty"]
     return {equals = equals, diff = diff}
 end
 
@@ -73,16 +80,16 @@ function updateItems(oldItems,newItems)
     local addList = {}
 
     -- Add or update item
-    for newItem in newItems do
+    for i=1,#newItems do
         local found = false;
 
-        for oldItem in oldItems do
-            local data = itemEquals(oldItem,newItem)
+        for j=1,#oldItems do
+            local data = itemEquals(oldItems[j],newItems[i])
             if data["equals"] then
                 found = true;
-                if data["amount"] ~= 0 then
+                if data["diff"] ~= 0 then
                     -- These items should be updated
-                    table.insert(updateList,newItem);
+                    table.insert(updateList,newItems[i]);
                 end
                 -- Item found stop the inner loop
                 break;
@@ -90,22 +97,22 @@ function updateItems(oldItems,newItems)
         end
         -- Outer loop add if item not found
         if found == false then
-            table.insert(addList,newItem);
+            table.insert(addList,newItems[i]);
         end
     end
 
     -- Find if old items are no longer present.
-    for oldItem in oldItems do
+    for j=1,#oldItems do
         local found = false;
-        for newItem in newItems do
-            local data = itemEquals(oldItem,newItem)
+        for i=1,#newItems do
+            local data = itemEquals(oldItems[j],newItems[i])
             if data["equals"] then
                 found = true;
                 break
             end
         end
         if found == false then
-            table.insert(removeList,newItems);
+            table.insert(removeList,newItems[i]);
         end
     end
     -- Update the items
@@ -116,10 +123,15 @@ end
 function monitorItems()
     sendItems()
     local oldItems = itemMapper(interface.getAvailableItems());
+    local i = 0
     while true do
         local newItems = itemMapper(interface.getAvailableItems());
+        print(i)
+        i = i + 1
+        sleep(2)
         updateItems(oldItems,newItems)
         oldItems = newItems;
-        sleep(1)
-        end
+    end
 end
+
+monitorItems()
