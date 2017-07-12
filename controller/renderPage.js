@@ -4,25 +4,32 @@
 const express = require('express'),
     router = express.Router(),
     itembase = require('../model/itembase'),
-    sessions = require('../model/sessions');
+    sessions = require('../model/sessions'),
+    turtlebase = require('../model/turtlebase');
 
-
+/**
+ * Method for rendering a page on the client side.
+ */
 router.get("/", function (request, response) {
     var cookieString = request.headers.cookie;
 
     var sessionCookie = parseInt(cookieString.substr(cookieString.indexOf("session=") + 8, cookieString.length));
 
     sessions.getSession(sessionCookie, function (session) {
-        itembase.getItems(function (items) {
-            var renderSpecs;
+        turtlebase.getTurtleIDList(function (turtleList) {
+            itembase.getItems(function (items) {
+                var renderSpecs;
 
-            if (session !== undefined) {
-                renderSpecs = {items: items, validated: session !== undefined, page : session.page};
-            } else {
-                renderSpecs = {items: items, validated: session !== undefined, page : 'index'}
-            }
+                console.log(turtleList);
 
-            response.render("index.ejs", renderSpecs);
+                if (session !== undefined) {
+                    renderSpecs = {items: items, validated: session !== undefined, page: session.page, turtleList : turtleList};
+                } else {
+                    renderSpecs = {validated: session !== undefined, page: 'index'}
+                }
+
+                response.render("index.ejs", renderSpecs);
+            });
         });
     });
 });
