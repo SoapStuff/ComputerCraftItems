@@ -2,11 +2,11 @@
  * Created by Arjan on 30-6-2017.
  */
 
-const BST = require("../lib/BinarySearchTree");
+const BST = require("../lib/Collections/BinarySearchTree");
 const CSV = require("../lib/CSV-Parser");
 const fs = require("fs");
 const logger = require('./logger');
-const comparator = require("../lib/StringComparator").compare;
+const comparator = require("../lib/Comparators/StringComparator").compare;
 /*
  * A map for all the items in the
  */

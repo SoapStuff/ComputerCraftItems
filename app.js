@@ -17,7 +17,7 @@ const sessions = require("./model/sessions");
 logger.init(process.argv[3]);
 itembase.init();
 commandbase.init();
-itemmap.init();
+//itemmap.init();
 turtlebase.init();
 sessions.init();
 

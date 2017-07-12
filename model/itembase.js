@@ -2,16 +2,19 @@
  * Created by Stijn on 29/06/2017.
  */
 const logger = require('./logger');
-const comparator = require('../lib/StringComparator');
-const BST = require("../lib/BinarySearchTree");
+const comparator = require('../lib/Comparators/ItemStackComparator').compare;
+const BST = require("../lib/Collections/BinarySearchTree");
+const ItemStack = require("../lib/ItemStack");
 
 var items;
 
 /**
- * Inits the itembase with an item array.
+ * Inits the itembase with an Binary Search Tree
  */
 exports.init = function () {
-    items =  ["Item1","Item2","Item3"];
+    items =  new BST(comparator);
+    var itemStack = new ItemStack("mod_id",0,0,"id","display_name","name");
+    items.add(itemStack);
 };
 
 /**
@@ -37,7 +40,11 @@ exports.getItems = function (callback) {
 exports.setItems = function (args) {
     const json = JSON.parse(args);
     if(json.action === "set") {
-        items = json.items;
+        var itemsArray = json.items;
+        items = new BST(comparator);
+        for (var i = 0; i < json.items.length; i++) {
+            items.add(json.items[i]);
+        }
     }
     logger.log("[Itembase] Items updated");
 };
