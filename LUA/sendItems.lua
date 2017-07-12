@@ -49,12 +49,11 @@ function update(addItems,removeItems,updateItems)
         removeItems = removeItems,
         updateItems = updateItems
     }
-    print("Updating:")
-    print(#addItems)
-    print(#removeItems)
-    print(#updateItems)
-    print("-----------")
     if #addItems ~= 0 or #removeItems ~= 0 or #updateItems ~= 0 then
+        print("Updating:")
+        print("Added " .. #addItems .. " items")
+        print("Removed " .. #removeItems .. " items")
+        print("Updated " .. #updateItems .. " items")
         httpPost(args);
     end
 end
@@ -85,7 +84,7 @@ function updateItems(oldItems,newItems)
 
         for j=1,#oldItems do
             local data = itemEquals(oldItems[j],newItems[i])
-            if data["equals"] then
+            if data["equals"] == true then
                 found = true;
                 if data["diff"] ~= 0 then
                     -- These items should be updated
@@ -106,13 +105,13 @@ function updateItems(oldItems,newItems)
         local found = false;
         for i=1,#newItems do
             local data = itemEquals(oldItems[j],newItems[i])
-            if data["equals"] then
+            if data["equals"] == true then
                 found = true;
                 break
             end
         end
         if found == false then
-            table.insert(removeList,newItems[i]);
+            table.insert(removeList,oldItems[j]);
         end
     end
     -- Update the items
@@ -123,11 +122,8 @@ end
 function monitorItems()
     sendItems()
     local oldItems = itemMapper(interface.getAvailableItems());
-    local i = 0
     while true do
         local newItems = itemMapper(interface.getAvailableItems());
-        print(i)
-        i = i + 1
         sleep(2)
         updateItems(oldItems,newItems)
         oldItems = newItems;

@@ -37,14 +37,41 @@ exports.getItems = function (callback) {
  *
  * @param args The array to set it to.
  */
-exports.setItems = function (args) {
+exports.updateItems = function (args) {
     const json = JSON.parse(args);
-    if(json.action === "set") {
-        var itemsArray = json.items;
-        items = new BST(comparator);
-        for (var i = 0; i < json.items.length; i++) {
-            items.add(json.items[i]);
-        }
+    if(json.action === "set" && json.items) {
+        setItems(json.items)
+    }
+    if(json.action === "update" && json.addItems && json.removeItems && json.updateItems) {
+        updateItems(json.addItems, json.removeItems, json.updateItems)
     }
     logger.log("[Itembase] Items updated");
 };
+
+function updateItems(addItems,removeItems,updateItems) {
+
+    //updateItems
+    for(var i = 0; i < updateItems.length; i++) {
+        var item = items.contains(updateItems[i])
+        if (item !== null) {
+            item.qty = updateItems[i].qty;
+        }
+    }
+
+    //Remove the items
+    for(var i = 0; i < removeItems.length; i++) {
+        items.remove(removeItems[i]);
+    }
+
+    // Add the items
+    for (var i = 0; i < addItems.length; i++) {
+        items.add(addItems[i]);
+    }
+}
+
+function setItems(_items)  {
+    items = new BST(comparator);
+    for (var i = 0; i < _items.length; i++) {
+        items.add(_items[i]);
+    }
+}
