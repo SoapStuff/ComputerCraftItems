@@ -9,8 +9,8 @@ const express = require("express"),
  * Method that handles the post request that sends the items in the system to the server.
  */
 router.post("/", function(request,response) {
-    if(request.body.args) {
-        itembase.setItems(request.body.args);
+    if(request.body) {
+        itembase.updateItems(request.body.request);
         response.send("Items added");
     }
 });
