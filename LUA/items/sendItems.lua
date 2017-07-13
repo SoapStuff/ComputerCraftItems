@@ -8,18 +8,6 @@
 local URL = "http://localhost:3000";
 local interface = peripheral.wrap("back");
 
--- This function returns an basic version of the item in the ME System
--- Item Structure : {mod_id,dmg,qty,id,display_name,name}
--- @Param Stacks - The interface items
-function itemMapper(stacks)
-    local itemList = {};
-    for i=1,#stacks do
-        local detail = interface.getItemDetail(stacks[i]["fingerprint"]).basic();
-        table.insert(itemList,detail);
-    end
-    return itemList;
-end
-
 -- Encode the paramaters and make a post request.
 -- @Param args, object that needs to be sent to the server.
 function httpPost(args)
@@ -28,9 +16,7 @@ function httpPost(args)
 end
 
 -- Send all the items in the interface to the host.
-function sendItems()
-    local stacks = interface.getAvailableItems()
-    local itemList = itemMapper(stacks);
+function sendItems(itemList)
     local args = {
         action = "set",
         items = itemList
@@ -119,15 +105,13 @@ function updateItems(oldItems,newItems)
 end
 
 -- Monitor the items every tick.
-function monitorItems()
-    sendItems()
-    local oldItems = itemMapper(interface.getAvailableItems());
+function monitorItems(getItems)
+    local oldItems = getItems();
+    sendItems(oldItems)
     while true do
-        local newItems = itemMapper(interface.getAvailableItems());
-        sleep(2)
+        local newItems = getItems();
+        sleep(1)
         updateItems(oldItems,newItems)
         oldItems = newItems;
     end
 end
-
-monitorItems()
