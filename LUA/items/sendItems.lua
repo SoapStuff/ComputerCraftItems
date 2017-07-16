@@ -16,10 +16,13 @@ function httpPost(args)
 end
 
 -- Send all the items in the interface to the host.
-function sendItems(itemList)
+-- @Param the items to send
+-- @Param inventory - EnderChest or MeInterface
+function sendItems(itemList,inventory)
     local args = {
         action = "set",
-        items = itemList
+        items = itemList,
+        inventory = inventory
     }
     httpPost(args);
 end
@@ -28,18 +31,20 @@ end
 -- @Param addItems - Items to add
 -- @Param removeItems - items to remove
 -- @Param updateItems - items to update
-function update(addItems,removeItems,updateItems)
+-- @Param inventory - EnderChest or MeInterface
+function update(addItems,removeItems,updateItems,inventory)
     local args = {
         action = "update",
         addItems = addItems,
         removeItems = removeItems,
-        updateItems = updateItems
+        updateItems = updateItems,
+        inventory = inventory
     }
     if #addItems ~= 0 or #removeItems ~= 0 or #updateItems ~= 0 then
-        print("Updating:")
-        print("Added " .. #addItems .. " items")
-        print("Removed " .. #removeItems .. " items")
-        print("Updated " .. #updateItems .. " items")
+        --print("Updating:")
+        --print("Added " .. #addItems .. " items")
+        --print("Removed " .. #removeItems .. " items")
+        --print("Updated " .. #updateItems .. " items")
         httpPost(args);
     end
 end
@@ -58,7 +63,8 @@ end
 -- Check the differences between the old state and the new state. Update the webserver accordingly.
 -- @Param oldItems
 -- @Param newItems
-function updateItems(oldItems,newItems)
+-- @Param inventory - EnderChest or MeInterface
+function updateItems(oldItems,newItems,inventory)
     -- Item Lists
     local updateList ={};
     local removeList = {};
@@ -101,17 +107,19 @@ function updateItems(oldItems,newItems)
         end
     end
     -- Update the items
-    update(addList,removeList,updateList);
+    update(addList,removeList,updateList,inventory);
 end
 
 -- Monitor the items every tick.
-function monitorItems(getItems)
+-- @Param getItems - the function that retrieves the list of items.
+-- @Param inventory - EnderChest or MeInterface
+function monitorItems(getItems,inventory)
     local oldItems = getItems();
-    sendItems(oldItems)
+    sendItems(oldItems,inventory)
     while true do
         local newItems = getItems();
         sleep(1)
-        updateItems(oldItems,newItems)
+        updateItems(oldItems,newItems,inventory)
         oldItems = newItems;
     end
 end

@@ -13,7 +13,7 @@ function getItems()
 end
 
 function monitor()
-    sendItems.monitorItems(getItems);
+    sendItems.monitorItems(getItems,"EnderChest");
 end
 
 monitor();

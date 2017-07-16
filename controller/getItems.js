@@ -11,8 +11,8 @@ const express = require("express"),
  */
 router.get("/",function(request,response) {
     var query = url.parse(request.url,true).query;
-    var string = query.string;
-    itembase.getItems(function(items){
+    var inventory = query.inventory;
+    itembase.getItems(inventory,function(items){
         response.send(items.toString())
     })
 });
