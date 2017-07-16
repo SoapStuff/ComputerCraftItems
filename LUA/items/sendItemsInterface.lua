@@ -21,7 +21,7 @@ function getItems()
 end
 
 function monitor()
-    sendItems.monitorItems(getItems);
+    sendItems.monitorItems(getItems,"MeInterface");
 end
 
 monitor();

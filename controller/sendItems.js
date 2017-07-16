@@ -10,7 +10,7 @@ const express = require("express"),
  */
 router.post("/", function(request,response) {
     if(request.body) {
-        itembase.updateItems(request.body.request);
+        itembase.updateItems(JSON.parse(request.body.request));
         response.send("Items added");
     }
 });
