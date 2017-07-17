@@ -7,29 +7,22 @@ const express = require('express'),
     url = require("url"),
     router = express.Router(),
     itemmap = require("../model/itemmap");
+const Command = require("../lib/Commands/Command");
 
 /**
  *
  * Executes or enqueues a command.
  *
  */
-router.get("/", function(request,response) {
-    var query = url.parse(request.url,true).query;
-
-    if(query.command === undefined || query.args=== undefined) {
-        response.send("The command was invalid");
+router.post("/", function(request,response) {
+    var json = JSON.parse(request.body.json);
+    var command;
+    try {
+        command = new Command(json);
+    } catch(error) {
+        response.send(error.toString());
         return;
     }
-
-    var args = query.args.split(",");
-    if(!validate(query.command,args,response)) {
-        return;
-    }
-    var command = {
-        command: query.command,
-        args: args
-    };
-
     commandbase.enqueueCommand(command, function () {
         response.send("Command Added");
     });

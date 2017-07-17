@@ -50,3 +50,12 @@ exports.updateItems = function (json) {
     }
     logger.log("[Itembase] Items updated");
 };
+
+exports.findItemStack = function(inventory,display_name) {
+    for(var i = 1; i < display_name.length; i++) {
+        if (display_name[i] === '_') {
+            display_name = display_name.replace("_"," ");
+        }
+    }
+    return network.getInventory(inventory).contains(new ItemStack(null,0,0,null,display_name,null));
+};

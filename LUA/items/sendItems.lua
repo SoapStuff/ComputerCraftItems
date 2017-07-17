@@ -12,7 +12,7 @@ local interface = peripheral.wrap("back");
 -- @Param args, object that needs to be sent to the server.
 function httpPost(args)
     local postdata = textutils.serialiseJSON(args,true);
-    http.post(URL .. "/sendItems","request= " .. textutils.urlEncode(postdata));
+    http.post(URL .. "/sendItems","json= " .. textutils.urlEncode(postdata));
 end
 
 -- Send all the items in the interface to the host.
