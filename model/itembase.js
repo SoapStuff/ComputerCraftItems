@@ -38,7 +38,7 @@ exports.getItems = function (inventory,callback) {
  * @param json The array to set it to.
  * @returns {void}
  */
-exports.updateItems = function (json) {
+exports.updateItems = function (json,callback) {
     if(json.action === "set" && json.items) {
         network.getInventory(json.inventory).clear();
         network.getInventory(json.inventory).addAll(json.items);
@@ -49,6 +49,9 @@ exports.updateItems = function (json) {
         network.getInventory(json.inventory).updateAll(json.updateItems);
     }
     logger.log("[Itembase] Items updated");
+    if(callback) {
+        callback(network,json.inventory);
+    }
 };
 
 exports.findItemStack = function(inventory,display_name) {
