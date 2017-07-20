@@ -6,13 +6,19 @@
 -- To change this template use File | Settings | File Templates.
 --
 local URL = "http://localhost:3000";
-local interface = peripheral.wrap("back");
+local initialized = false;
 
 -- Encode the paramaters and make a post request.
 -- @Param args, object that needs to be sent to the server.
 function httpPost(args)
     local postdata = textutils.serialiseJSON(args,true);
-    http.post(URL .. "/sendItems","request= " .. textutils.urlEncode(postdata));
+    local response = http.post(URL .. "/sendItems","json= " .. textutils.urlEncode(postdata));
+    if response then
+        return response.readLine();
+    else
+        initialized = false;
+        return "Server Offline";
+    end
 end
 
 -- Send all the items in the interface to the host.
@@ -24,7 +30,10 @@ function sendItems(itemList,inventory)
         items = itemList,
         inventory = inventory
     }
-    httpPost(args);
+    local response = httpPost(args);
+    if response == "Items Updated" then
+        initialized = true;
+    end
 end
 
 -- Update the quantity of an item to the webserver
@@ -33,20 +42,17 @@ end
 -- @Param updateItems - items to update
 -- @Param inventory - EnderChest or MeInterface
 function update(addItems,removeItems,updateItems,inventory)
-    local args = {
-        action = "update",
-        addItems = addItems,
-        removeItems = removeItems,
-        updateItems = updateItems,
-        inventory = inventory
-    }
-    if #addItems ~= 0 or #removeItems ~= 0 or #updateItems ~= 0 then
-        --print("Updating:")
-        --print("Added " .. #addItems .. " items")
-        --print("Removed " .. #removeItems .. " items")
-        --print("Updated " .. #updateItems .. " items")
-        httpPost(args);
+    if #addItems ~= 0 or #removeItems ~= 0 or #updateItems ~= 0 or initialized == false then
+        local args = {
+            action = "update",
+            addItems = addItems,
+            removeItems = removeItems,
+            updateItems = updateItems,
+            inventory = inventory
+        }
+        return httpPost(args);
     end
+    return "No Update";
 end
 
 -- Checks whether the new Item equals the old item and returns the difference in quantity
@@ -107,7 +113,7 @@ function updateItems(oldItems,newItems,inventory)
         end
     end
     -- Update the items
-    update(addList,removeList,updateList,inventory);
+    return update(addList,removeList,updateList,inventory);
 end
 
 -- Monitor the items every tick.
@@ -119,7 +125,10 @@ function monitorItems(getItems,inventory)
     while true do
         local newItems = getItems();
         sleep(1)
-        updateItems(oldItems,newItems,inventory)
+        local response = updateItems(oldItems,newItems,inventory);
+        if response == "Request Items" then
+            sendItems(newItems,inventory);
+        end
         oldItems = newItems;
     end
 end

@@ -12,17 +12,23 @@ os.loadAPI("craft")
 function pollCommand(state)
     local response = http.get(state["URL"] .. "/getCommand")
     if response then
-        local res = textutils.unserialise(response.readLine());
-        if res["command"] and res["args"] then
-            local command = res["command"];
-            local args = res["args"];
-            if command == "craft" then
-                craft.requestCrafting(args[1], tonumber(args[2]), tonumber(args[3]), state)
-            elseif command == "export" then
-                export.exportItemAmount(args[1], tonumber(args[2]), tonumber(args[3]), state)
-            elseif command == "import" then
-                import.importItemAmount(args[1], tonumber(args[2]), tonumber(args[3]), state)
+        local string = response.readLine();
+        if string and string ~= 'nil' then
+            local res = textutils.unserialise(string);
+            if res["command"] and res["itemid"] and res["amount"] and res["dmg"] then
+                local command = res["command"];
+                local amount = res["amount"]
+                local itemid = res["itemid"]
+                local dmg = res["dmg"]
+                if command == "craft" then
+                    craft.requestCrafting(itemid,amount,dmg, state)
+                elseif command == "export" then
+                    export.exportItemAmount(itemid,amount,dmg, state)
+                elseif command == "import" then
+                    import.importItemAmount(itemid,amount,dmg, state)
+                end
             end
         end
+
     end
 end

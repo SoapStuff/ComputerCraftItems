@@ -5,6 +5,7 @@ const express = require('express'),
     commandbase = require('../model/commandbase'),
     url = require("url"),
     router = express.Router();
+const logger = require("../model/logger");
 
 /**
  * Returns the first queued command.
@@ -15,11 +16,12 @@ router.get("/", function (request, response) {
     var command = commands.dequeue();
     // No commands
     if (command === undefined) {
-        response.send(responseString({command: "No Commands", args: []}));
+        response.send("nil");
         return;
     }
 
     var string = responseString(command);
+    logger.log("[GetCommand]" + string);
     response.send(string)
 });
 
@@ -29,19 +31,22 @@ router.get("/", function (request, response) {
  * @returns {string} The response string
  */
 function responseString(command) {
-    var argString = "";
-    command.args.forEach(function (argument) {
-        if (typeof argument === "string") {
-            argString += "\"" + argument + "\"";
-        } else {
-            argString += argument;
+    var argString = "{";
+
+    for (var k in command){
+        if (command.hasOwnProperty(k)) {
+            argString += k + " = ";
+            var value = command[k];
+            if (typeof value === "string") {
+                argString += "\"" + value + "\"";
+            } else {
+                argString += value;
+            }
+            argString += ","
         }
-        argString += ","
-    });
-    if(command.args >= 0) {
-        argString = argString.substr(0,argString.length-1);
     }
-    return '{command = "' + command.command + '" , args = {' + argString + '}}';
+    argString = argString.substr(0,argString.length-1) + "}";
+    return argString;
 }
 
 module.exports = router;
