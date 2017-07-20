@@ -39,10 +39,10 @@ router.post('/',function (request, response) {
                     parseAction('moveLeft', request.body.id, response);
                     break;
                 case 'rotateRight':
-                    parseAction('rotateRight', request.body.id, response);
+                    parseAction('turnRight', request.body.id, response);
                     break;
                 case 'rotateLeft':
-                    parseAction('rotateLeft', request.body.id, response);
+                    parseAction('turnLeft', request.body.id, response);
                     break;
                 case 'upKey':
                     parseAction('moveUp', request.body.id, response);

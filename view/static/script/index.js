@@ -78,7 +78,7 @@ function clearPanel(callback) {
 }
 
 function keyPressed(key) {
-    var details = {key : key.id, id : selected};
+    var details = {key: key.id, id: selected};
     $.post("/handleKeyPress", details).done(function (data) {
         console.log(data);
     });
@@ -111,29 +111,33 @@ function selectTurtle(img) {
                 var inventory = data.inventory;
 
                 var control = document.createElement('DIV');
+                var turtleContainer = $('#turtle-container')[0];
+                var verOffset = turtleContainer.scrollHeight;
+                var horOffset = turtleContainer.scrollWidth;
+
                 control.innerHTML = data.control;
-                control.style.marginLeft = '25%';
+                control.style.marginLeft = '15%';
                 control.style.position = 'absolute';
-                control.style.marginTop = '-46%';
+                //TODO Fix offset on resize
+                control.style.marginTop = -verOffset + "px";
 
                 var actions = data.actions;
 
                 var information = data.information;
 
-                console.log(control);
-
                 document.body.append(control);
-                console.log(document.body);
             })
         });
     }
+
+
 }
 
 /**
  * Display the turtles onscreen.
  */
 function showTurtles() {
-    for (var i = 0; i < 3; i++) {
+    for (var i = 0; i < Math.min(3, turtles.length); i++) {
         var index = i + firstIndex;
 
         if (index >= turtles.length) {
