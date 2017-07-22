@@ -20,7 +20,7 @@ end
 -- Returns a valid command table or nill
 -- @param arg, the arguments
 function validCommand(arg)
-    local commands = {import = true,export = true};
+    local commands = {import = true,export = true,craft = true};
     if commands[arg[1]] then
         return {
             command = arg[1],
