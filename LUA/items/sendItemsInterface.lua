@@ -15,6 +15,9 @@ function getItems()
     local itemList = {};
     for i=1,#stacks do
         local detail = interface.getItemDetail(stacks[i]["fingerprint"],false);
+        detail.is_fluid = stacks[i].is_fluid
+        detail.is_item = stacks[i].is_item
+        detail.is_craftable = stacks[i].is_craftable
         table.insert(itemList,detail);
     end
     return itemList;
