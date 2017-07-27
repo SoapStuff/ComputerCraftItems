@@ -6,6 +6,7 @@ const express = require('express'),
     url = require("url"),
     router = express.Router();
 const logger = require("../model/logger");
+const serializeToLua = require("../lib/Lua").serializeToLuaTable;
 
 /**
  * Returns the first queued command.
@@ -20,7 +21,7 @@ router.get("/", function (request, response) {
         return;
     }
 
-    var string = responseString(command);
+    var string = serializeToLua(command);
     logger.log("[GetCommand]" + string);
     response.send(string)
 });
@@ -29,6 +30,7 @@ router.get("/", function (request, response) {
  * Method that creates a response string from a given command
  * @param command The command to turn into a string
  * @returns {string} The response string
+ * @deprecated
  */
 function responseString(command) {
     var argString = "{";
