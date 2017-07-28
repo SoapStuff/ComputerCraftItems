@@ -48,7 +48,7 @@ module.exports.test5 = function() {
 
 module.exports.test6 = function() {
     var array = [[1,2,3],{key: 1}];
-    var string = "[[1,2,3],{key = 1}]".replace(/\s+/g,"");
+    var string = "{{1,2,3},{key = 1}}".replace(/\s+/g,"");
     var result = serializeToLua(array).replace(/\s+/g,"");
     assert.equal(result,string,"Expected : " + string + " But was : " + result);
     return true;
