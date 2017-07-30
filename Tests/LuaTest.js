@@ -53,3 +53,13 @@ module.exports.test6 = function() {
     assert.equal(result,string,"Expected : " + string + " But was : " + result);
     return true;
 };
+
+module.exports.test7 = function () {
+    var object = {key : 1, func: function() {
+        return false;
+    }};
+    var string = "{key=1}";
+    var result = serializeToLua(object).replace(/\s+/g,"");
+    assert.equal(result,string,"Expected : " + string + " But was : " + result);
+    return true;
+};
