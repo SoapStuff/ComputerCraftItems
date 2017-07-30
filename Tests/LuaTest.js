@@ -3,7 +3,7 @@
  */
 
 const assert = require("assert");
-const serializeToLua = require("../lib/Lua");
+const serializeToLua = require("../lib/Lua").serializeToLuaTable;
 module.exports.test1 = function () {
     var object = { key : 1};
     var string = "{ key = 1 }".replace(/\s+/g, "");
@@ -42,6 +42,24 @@ module.exports.test5 = function() {
     }};
     var string = "{ key = { innerKey = {1,2,3,4} }}".replace(/\s+/g, "");
     var result = serializeToLua(object).replace(/\s+/g, "");
+    assert.equal(result,string,"Expected : " + string + " But was : " + result);
+    return true;
+};
+
+module.exports.test6 = function() {
+    var array = [[1,2,3],{key: 1}];
+    var string = "{{1,2,3},{key = 1}}".replace(/\s+/g,"");
+    var result = serializeToLua(array).replace(/\s+/g,"");
+    assert.equal(result,string,"Expected : " + string + " But was : " + result);
+    return true;
+};
+
+module.exports.test7 = function () {
+    var object = {key : 1, func: function() {
+        return false;
+    }};
+    var string = "{key=1}";
+    var result = serializeToLua(object).replace(/\s+/g,"");
     assert.equal(result,string,"Expected : " + string + " But was : " + result);
     return true;
 };
