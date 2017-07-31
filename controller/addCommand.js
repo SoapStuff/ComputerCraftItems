@@ -2,7 +2,7 @@
  * Created by Stijn on 29/06/2017.
  */
 const express = require('express'),
-    validate = require('../lib/validator').validate,
+    validate = require('../lib/Helpers/validator').validate,
     commandbase = require('../model/commandbase'),
     url = require("url"),
     router = express.Router(),

@@ -3,9 +3,9 @@
  */
 const logger = require('./logger'),
     Queue = require('../lib/Collections/Queue'),
-    validator = require('../lib/validator'),
+    validator = require('../lib/Helpers/validator'),
     Turtle = require('../lib/Turtle'),
-    Action = require('../lib/Action');
+    Action = require('../lib/Commands/Action');
 
 var turtles;
 

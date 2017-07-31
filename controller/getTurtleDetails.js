@@ -5,7 +5,7 @@ const express = require('express'),
     router = express.Router(),
     sessions = require('../model/sessions'),
     turtlebase = require('../model/turtlebase'),
-    panelBuilder = require('../lib/panelBuilder'),
+    panelBuilder = require('../lib/Helpers/panelBuilder'),
     logger = require('../model/logger');
 
 router.post('/', function (request, response) {

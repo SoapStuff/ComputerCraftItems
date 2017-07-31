@@ -3,7 +3,7 @@
  */
 
 const assert = require("assert");
-const serializeToLua = require("../lib/Lua").serializeToLuaTable;
+const serializeToLua = require("../lib/Helpers/Lua").serializeToLuaTable;
 module.exports.test1 = function () {
     var object = { key : 1};
     var string = "{ key = 1 }".replace(/\s+/g, "");
