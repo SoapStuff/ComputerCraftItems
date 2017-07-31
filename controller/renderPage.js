@@ -17,7 +17,7 @@ router.get("/", function (request, response) {
 
     sessions.getSession(sessionCookie, function (session) {
         turtlebase.getTurtleIDList(function (turtleList) {
-            itembase.getItems(function (items) {
+            itembase.getItems('MeInterface', function (items) {
                 var renderSpecs;
 
                 console.log(turtleList);

@@ -3,7 +3,7 @@
  */
 
 const BST = require("../lib/Collections/BinarySearchTree");
-const CSV = require("../lib/CSV-Parser");
+const CSV = require("../lib/Helpers/CSV-Parser");
 const fs = require("fs");
 const logger = require('./logger');
 const comparator = require("../lib/Comparators/StringComparator").compare;

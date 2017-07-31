@@ -6,7 +6,7 @@ const express = require('express'),
     url = require("url"),
     router = express.Router();
 const logger = require("../model/logger");
-const serializeToLua = require("../lib/Lua").serializeToLuaTable;
+const serializeToLua = require("../lib/Helpers/Lua").serializeToLuaTable;
 
 /**
  * Returns the first queued command.

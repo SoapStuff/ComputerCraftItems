@@ -5,9 +5,9 @@ img.index {
 
 img.foreground {
     position: relative;
-    margin-top: 1%;
-    margin-left: 1%;
-    width: 10%;
+    margin-top: 6%;
+    margin-left: 6%;
+    width: 88%;
     height: auto;
 }
 
@@ -17,18 +17,22 @@ img.background {
     height: auto;
 }
 
+li {
+    width: 12%;
+}
+
 li.hidden {
     visibility: hidden;
 }
 
 img.up-scroll {
-    width: 12%;
+    width: 100%;
     height: auto;
 }
 
 img.down-scroll {
-    margin-top: 1%;
-    width: 12%;
+    margin-top: 6%;
+    width: 100%;
     height: auto;
     -ms-transform: rotate(180deg);
     -webkit-transform: rotate(180deg);
@@ -62,7 +66,34 @@ div.center {
     padding: 10px;
 }
 
+div.control-panel {
+    margin-left: 20%;
+    position: absolute;
+}
+
 body {
     background-color: #c6c6c6;
     overflow: hidden;
+    position: relative;
+}
+
+img.key {
+    width: 100%;
+    height: auto;
+}
+
+img.rotate-left {
+    transform: scale(-1, 1);
+}
+
+img.forward-key {
+    transform: scale(-1);
+}
+
+img.left-key {
+    transform: rotate(90deg);
+}
+
+img.right-key {
+    transform: rotate(270deg);
 }
