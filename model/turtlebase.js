@@ -2,7 +2,7 @@
  * Created by Stijn on 01/07/2017.
  */
 const logger = require('./logger'),
-    Queue = require('../lib/Queue'),
+    Queue = require('../lib/Collections/Queue'),
     validator = require('../lib/validator'),
     Turtle = require('../lib/Turtle'),
     Action = require('../lib/Action');

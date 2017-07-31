@@ -7,7 +7,7 @@
 --
 function pullItems(state)
     for i=1,27 do
-        state.enderChest.pullItem(state.pullDir,i,64);
+        pcall(function() state.enderChest.pullItem(state.pullDir,i,64) end);
     end
 end
 

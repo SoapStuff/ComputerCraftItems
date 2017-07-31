@@ -1,7 +1,7 @@
 /**
  * Created by Stijn on 29/06/2017.
  */
-const Queue = require("../lib/Queue.js"),
+const Queue = require("../lib/Collections/Queue.js"),
     logger = require('./logger');
 
 var commands;

@@ -9,9 +9,15 @@ const express = require("express"),
  * Method that handles the post request that sends the items in the system to the server.
  */
 router.post("/", function(request,response) {
-    if(request.body.args) {
-        itembase.setItems(request.body.args);
-        response.send("Items added");
+    if(request.body) {
+        itembase.updateItems(JSON.parse(request.body.json), function(network,inventory) {
+            if(!network.isInitialized(inventory)) {
+                network.setInitialized(inventory);
+                response.send("Request Items");
+            } else {
+                response.send("Items Updated");
+            }
+        });
     }
 });
 
