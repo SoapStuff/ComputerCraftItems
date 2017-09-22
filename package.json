@@ -6,6 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ArjanSeijs/ComputerCraftItems"
+  },
   "author": "Arjan Seijs",
   "license": "ISC",
   "dependencies": {
@@ -13,5 +17,8 @@
     "csv": "^1.1.1",
     "ejs": "^2.5.6",
     "express": "^4.15.3"
+  },
+  "devDependencies": {
+    "simple-tests-js": "^1.0.2"
   }
 }
