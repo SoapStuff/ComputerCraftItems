@@ -1,11 +1,13 @@
 /**
  * Created by Stijn on 29/06/2017.
  */
+
+/** @namespace json.itemlist */
+/** @namespace json.command */
 const logger = require('./logger');
 const ItemStack = require("../lib/Items/ItemStack");
 const Network = require("../lib/Items/Network");
 const Inventory = require("../lib/Items/Inventory");
-
 var network;
 
 /**
@@ -36,17 +38,22 @@ exports.getItems = function (inventory,callback) {
 /**
  * Update the Inventory accordingly.
  * @param json The array to set it to.
+ * @param {function} [callback] The callback
  * @returns {void}
  */
 exports.updateItems = function (json,callback) {
-    if(json.action === "set" && json.items) {
-        network.getInventory(json.inventory).clear();
-        network.getInventory(json.inventory).addAll(json.items);
+    logger.log("[Itembase] updateItems:" + JSON.stringify(json,function(key,value) {
+        return key ==="itemlist" ? value.length : value;
+    }));
+    //{ command: <clear|add|remove|update>, itemlist: [<ItemStack>.....], inventory: <meinterface,enderchest>}
+    if(json.command !== "clear" && (!json.inventory || !json.itemlist)) {
+        throw new Error("Invalid Request" + JSON.stringify(json));
     }
-    if(json.action === "update" && json.addItems && json.removeItems && json.updateItems) {
-        network.getInventory(json.inventory).addAll(json.addItems);
-        network.getInventory(json.inventory).removeAll(json.removeItems);
-        network.getInventory(json.inventory).updateAll(json.updateItems);
+    switch (json.command) {
+        case "clear": network.getInventory(json.inventory).clear(); break;
+        case "add": network.getInventory(json.inventory).addAll(json.itemlist); break;
+        case "remove": network.getInventory(json.inventory).removeAll(json.itemlist); break;
+        case "update": network.getInventory(json.inventory).updateAll(json.itemlist); break;
     }
     logger.log("[Itembase] Items updated");
     if(callback) {
