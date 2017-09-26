@@ -6,8 +6,10 @@
 -- To change this template use File | Settings | File Templates.
 --
 local URL = "http://localhost:3000";
-local initialized = false;
 local bucketSize = 63;
+
+local debug = false;
+local log = false;
 
 
 -- Update the items periodicly.
@@ -22,11 +24,25 @@ function monitorItems(getItems,inventory)
 
     local oldItems = getItems()
     sendItemRequest("add",oldItems,inventory);
+
     while true do
+        if debug then
+            local event, key = os.pullEvent( "key" );
+            if key == keys.e then
+                handle()
+            end
+        else
+            handle()
+            sleep(1)
+        end
+    end
+
+    local function handle()
+        logger("");
+        logger("Starting loop at: "..os.clock())
         local newItems = getItems();
         updateItems(oldItems,newItems,inventory);
         oldItems = newItems;
-        sleep(1)
     end
 end
 
@@ -49,6 +65,7 @@ end
 -- @Param inventory <meInterface|enderchest>
 function sendItemRequest(command,items,inventory)
     local buckets = math.ceil(#items / bucketSize);
+    logger("  Send Items Request. " .. command .. #items .. "items in" .. buckets .. "buckets.");
     local ListItemlist = {}
     if buckets > 1 then
         for j=1,#items do
@@ -86,6 +103,7 @@ end
 -- @Param inventory - EnderChest or MeInterface
 function updateItems(oldItems,newItems,inventory)
     -- Item Lists
+    logger("Updating items at" .. os.clock());
     local updateList ={};
     local removeList = {};
     local addList = {}
@@ -127,7 +145,22 @@ function updateItems(oldItems,newItems,inventory)
         end
     end
     -- Update the items
+    logger(" Updating Request at: " .. os.clock());
+    logger(" Previous amount of items: "..#oldItems);
+    logger(" New amount of items:  "..#newItems)
+    logger(" Added item amount: " .. #addList);
+    logger(" Removed item amount: " .. #removeList);
+    logger(" Updated item amount: " .. #updateList);
+
     sendItemRequest("add",addList,inventory);
     sendItemRequest("remove",removeList,inventory);
     sendItemRequest("update",updateList,inventory);
+
+    logger(" Updating Done at: " .. os.clock());
+end
+
+function logger(string)
+    if log then
+        print(string)
+    end
 end
