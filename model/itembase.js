@@ -50,7 +50,7 @@ exports.updateItems = function (json,callback) {
         throw new Error("Invalid Request" + JSON.stringify(json));
     }
     switch (json.command) {
-        case "clear": network.getInventory(json.inventory).clear(); break;
+        case "clear": network.getInventory(json.inventory).clear(); network.setInitialized(json.inventory); break;
         case "add": network.getInventory(json.inventory).addAll(json.itemlist); break;
         case "remove": network.getInventory(json.inventory).removeAll(json.itemlist); break;
         case "update": network.getInventory(json.inventory).updateAll(json.itemlist); break;

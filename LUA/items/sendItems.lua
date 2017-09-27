@@ -11,39 +11,68 @@ local bucketSize = 63;
 local debug = false;
 local log = false;
 
-
 -- Update the items periodicly.
 -- @Param getItems - the getItems function
 -- @Param inventory - the inventory
 function monitorItems(getItems,inventory)
-    local response = httpPost({command = "clear", inventory = inventory})
-    if not response then
-        print("Server Offline");
-        return;
-    end
+    init(getItems,inventory);
 
+    -- Add all the items.
     local oldItems = getItems()
-    sendItemRequest("add",oldItems,inventory);
 
+    -- Monitor
     while true do
         if debug then
             local event, key = os.pullEvent( "key" );
             if key == keys.e then
-                handle()
+                logger("");
+                logger("Starting loop at: "..os.clock())
+                local newItems = getItems();
+                -- Monitor Changes
+                local succes = updateItems(oldItems,newItems,inventory);
+                if not succes then
+                    pingServer(getItems,inventory)
+                end
+                oldItems = newItems;
             end
         else
-            handle()
+            logger("");
+            logger("Starting loop at: "..os.clock())
+            local newItems = getItems();
+            -- Monitor Changes
+            local succes = updateItems(oldItems,newItems,inventory);
+            oldItems = newItems;
+            if not succes then
+                pingServer(getItems,inventory)
+            end
             sleep(1)
         end
     end
+end
 
-    local function handle()
-        logger("");
-        logger("Starting loop at: "..os.clock())
-        local newItems = getItems();
-        updateItems(oldItems,newItems,inventory);
-        oldItems = newItems;
-    end
+function init(getItems,inventory)
+    -- Intialize the network on the server.
+    local response = httpPost({command = "clear", inventory = inventory})
+    if not response then
+        pingServer(getItems,inventory);
+    end;
+    sendItemRequest("add",getItems(),inventory);
+end
+
+-- Ping the server untill it is online.
+-- Then Intialize the items.
+function pingServer(getItems,inventory)
+    print("Server Offline Waiting for server to come back online");
+    while true do
+        print("Pinging Server at:" .. os.clock());
+        local ping = http.get(URL.."/ping");
+        if ping then
+            print("Connected to server!");
+            init(getItems,inventory);
+            break;
+        end;
+        sleep(5);
+    end;
 end
 
 -- Encode the paramaters and make a post request.
@@ -54,7 +83,6 @@ function httpPost(args)
     if response then
         return response.readLine();
     else
-        initialized = false;
         return nil;
     end
 end
@@ -78,12 +106,18 @@ function sendItemRequest(command,items,inventory)
         for i = 1, buckets do
             local response = httpPost({ command = command, inventory = inventory, itemlist = ListItemlist[i] });
             if not response then
-                print("Server offline");
+                print("Lost connection");
+                return false;
             end
         end
     elseif buckets == 1 then
-        httpPost({ command = command, inventory = inventory, itemlist = items });
+        local response = httpPost({ command = command, inventory = inventory, itemlist = items });
+        if not response then
+            print("Lost Connection");
+            return false;
+        end;
     end;
+    return true;
 end
 
 -- Checks whether the new Item equals the old item and returns the difference in quantity
@@ -92,8 +126,8 @@ end
 -- @Param oldItem
 -- @Param newItem
 function itemEquals(oldItem,newItem)
-    local equals = oldItem["id"] == newItem["id"] and oldItem["dmg"] == newItem["dmg"]
-    local diff = newItem["qty"] - oldItem["qty"]
+    local equals = oldItem.id == newItem.id and oldItem.dmg == newItem.dmg and oldItem.display_name == newItem.display_name;
+    local diff = newItem.qty - oldItem.qty
     return equals,diff;
 end
 
@@ -152,15 +186,16 @@ function updateItems(oldItems,newItems,inventory)
     logger(" Removed item amount: " .. #removeList);
     logger(" Updated item amount: " .. #updateList);
 
-    sendItemRequest("add",addList,inventory);
-    sendItemRequest("remove",removeList,inventory);
+    local succes = sendItemRequest("add",addList,inventory) and
+    sendItemRequest("remove",removeList,inventory) and
     sendItemRequest("update",updateList,inventory);
 
     logger(" Updating Done at: " .. os.clock());
+    return succes;
 end
 
 function logger(string)
     if log then
-        print(string)
+        print(string);
     end
 end

@@ -14,7 +14,7 @@ function getItems()
     local items = {};
     local stacks = interface.getAvailableItems(3);
     for i=1,#stacks do
-        local item = stacks[i]["item"];
+        local item = stacks[i].item;
         item.is_fluid = stacks[i].is_fluid;
         item.is_item = stacks[i].is_item;
         item.is_craftable = stacks[i].is_craftable;
