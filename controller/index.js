@@ -30,5 +30,6 @@ router.use("/login", require('./login'));
 router.use("/setPage", require('./setPage'));
 router.use("/getTurtleDetails", require('./getTurtleDetails'));
 router.use("/handleKeyPress", require('./handleKeyPress'));
+router.use("/ping",require('./ping'));
 
 module.exports = router;

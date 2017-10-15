@@ -12,7 +12,6 @@ router.post("/", function(request,response) {
     if(request.body) {
         itembase.updateItems(JSON.parse(request.body.json), function(network,inventory) {
             if(!network.isInitialized(inventory)) {
-                network.setInitialized(inventory);
                 response.send("Request Items");
             } else {
                 response.send("Items Updated");

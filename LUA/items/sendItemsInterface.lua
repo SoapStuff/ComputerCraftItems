@@ -11,16 +11,16 @@ local interface = peripheral.wrap("back");
 -- This function returns an basic version of the item in the ME System
 -- Item Structure : {mod_id,dmg,qty,id,display_name,name}
 function getItems()
-    local stacks = interface.getAvailableItems()
-    local itemList = {};
+    local items = {};
+    local stacks = interface.getAvailableItems(3);
     for i=1,#stacks do
-        local detail = interface.getItemDetail(stacks[i]["fingerprint"],false);
-        detail.is_fluid = stacks[i].is_fluid
-        detail.is_item = stacks[i].is_item
-        detail.is_craftable = stacks[i].is_craftable
-        table.insert(itemList,detail);
+        local item = stacks[i].item;
+        item.is_fluid = stacks[i].is_fluid;
+        item.is_item = stacks[i].is_item;
+        item.is_craftable = stacks[i].is_craftable;
+        table.insert(items,item);
     end
-    return itemList;
+    return items
 end
 
 function monitor()
